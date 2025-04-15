@@ -1,4 +1,6 @@
+using ER_Recovery.Infrastructure.Data;
 using ER_Recovery.Web.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace ER_Recovery.Web
 {
@@ -11,6 +13,10 @@ namespace ER_Recovery.Web
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddHttpClient<IDailyReflectionService, DailyReflectionService>();
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             var app = builder.Build();
 
@@ -31,6 +37,8 @@ namespace ER_Recovery.Web
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
+
+            DbInitializer.InitDb(app);
 
             app.Run();
         }

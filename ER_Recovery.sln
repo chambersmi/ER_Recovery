@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ER_Recovery.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ER_Recovery.Domains", "ER_Recovery.Domains\ER_Recovery.Domains.csproj", "{68F1570E-FDF7-45F4-BEC3-B34A9323222E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ER_Recovery.Infrastructure", "ER_Recovery.Infrastructure\ER_Recovery.Infrastructure.csproj", "{23892B8A-DB3A-4BF5-B1F4-4198ABD0A549}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{68F1570E-FDF7-45F4-BEC3-B34A9323222E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68F1570E-FDF7-45F4-BEC3-B34A9323222E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68F1570E-FDF7-45F4-BEC3-B34A9323222E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23892B8A-DB3A-4BF5-B1F4-4198ABD0A549}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23892B8A-DB3A-4BF5-B1F4-4198ABD0A549}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23892B8A-DB3A-4BF5-B1F4-4198ABD0A549}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23892B8A-DB3A-4BF5-B1F4-4198ABD0A549}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
