@@ -9,24 +9,16 @@ namespace ER_Recovery.Web.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly IDailyReflectionService _dailyReflectionService;
 
-        public string ReflectionTitle { get; set; } = "";
-        public string ReflectionBody { get; set; } = "";
-        public string ReflectionDate { get; set; } = "";
-
-        public IndexModel(ILogger<IndexModel> logger, IDailyReflectionService dailyReflectionService)
+        public IndexModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
-            _dailyReflectionService = dailyReflectionService;
+
         }
 
         public async Task OnGetAsync()
         {
-            var reflection = await _dailyReflectionService.GetTodaysReflectionAsync();
-            ReflectionTitle = reflection.Title;
-            ReflectionBody = reflection.Body;
-            ReflectionDate = reflection.Date.ToString("MMMM dd");
+
 
         }
     }

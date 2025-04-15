@@ -1,0 +1,16 @@
+﻿@page
+@model ER_Recovery.Web.Pages.AA.DailyReflectionsModel
+@{
+}
+
+<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
+    <div class=text-center">
+        <div class="heading">
+            <h2 class="title">@Model.ReflectionTitle</h2>
+            <h4 class="sub-heading">@Model.ReflectionDate</h4>
+            <div class="daily-reflection-body">
+    @Html.Raw(Model.ReflectionBody)
+            </div>
+        </div>
+    </div>
+</div>
