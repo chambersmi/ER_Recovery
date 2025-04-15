@@ -2,10 +2,14 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    Layout = null;
 }
 
-<div class="container-fluid d-flex justify-content-center align-items-center min-vh-100">
-
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <form method="post">
+        <button type="submit" name="choice" value="AA" class="btn btn-primary">Alcoholics Anonymous</button>
+        <button type="submit" name="choice" value="NA" class="btn btn-primary">Narcotics Anonymous</button>
+    </form>
 </div>
 
 <style>
