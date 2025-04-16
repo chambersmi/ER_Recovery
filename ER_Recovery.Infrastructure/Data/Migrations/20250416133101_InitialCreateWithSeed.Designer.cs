@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250416002222_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250416133101_InitialCreateWithSeed")]
+    partial class InitialCreateWithSeed
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
