@@ -2,8 +2,104 @@
 @model ER_Recovery.Web.Pages.AA.MeetingsModel
 @{
     ViewData["Title"] = "AA Meetings";
+    var currentDay = DateTime.UtcNow.DayOfWeek;
+    var todaysMeetings = Model.Meetings.Where(m => m.Day == currentDay).OrderBy(m => m.Time).ToList();
+    var otherMeetings = Model.Meetings.Where(m => m.Day != currentDay).OrderBy(m => m.Day).ThenBy(m => m.Time).ToList();
+
 }
 
 <div class="container mt-5">
-    
+
+
+    <!-- CHECK IF THERE ARE MEETINGS TODAY -->
+    @if(todaysMeetings.Any())
+    {
+        <h3 class="text-primary">Today's Meetings (@currentDay)</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Location</th>
+                    <th>Meeting Name</th>
+                    <th>Address</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Closed Meeting?</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                    @foreach(var meeting in todaysMeetings)
+                    {
+                    <tr>
+                        <td>@meeting.Day</td>
+                        <td>@meeting.Time</td>
+                        <td>@meeting.Location</td>
+                        <td>@meeting.Description</td>
+                        <td>@meeting.Address</td>
+                        <td>@meeting.City</td>
+                        <td>@meeting.State</td>
+                        @if (meeting.OpenMeeting == true)
+                        {
+                            <td style="color: green;font-weight: 800;">Open Meeting</td>
+                        }
+                        else
+                        {
+                            <td style="color: red;font-weight: 800">Closed Meeting</td>
+                        }
+                    </tr>
+                    }
+              
+            </tbody>
+        </table>
+    }
+    else 
+    {
+        <p class="text-danger">No meetings are scheduled for today.</p>
+        <p class="text-secondary">Check Charlotte or Lansing</p>
+    }
+
+    <h3 class="mt-5">All Upcoming Meetings:</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Location</th>
+                <th>Meeting Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Closed Meeting?</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var meeting in otherMeetings)
+            {
+                <tr>
+                    <td>@meeting.Day</td>
+                    <td>@meeting.Time</td>
+                    <td>@meeting.Location</td>
+                    <td>@meeting.Description</td>
+                    <td>@meeting.Address</td>
+                    <td>@meeting.City</td>
+                    <td>@meeting.State</td>
+                    @if (meeting.OpenMeeting == true)
+                    {
+                        <td style="color: green;font-weight: 800;">Open Meeting</td>
+                    }
+                    else
+                    {
+                        <td style="color: red;font-weight: 800;">Closed Meeting</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
+    <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
 </div>

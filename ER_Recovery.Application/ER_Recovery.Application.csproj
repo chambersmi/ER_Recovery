@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ER_Recovery.Domains\ER_Recovery.Domains.csproj" />
+    <ProjectReference Include="..\ER_Recovery.Infrastructure\ER_Recovery.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

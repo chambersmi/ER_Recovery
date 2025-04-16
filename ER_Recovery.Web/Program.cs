@@ -1,4 +1,6 @@
+using ER_Recovery.Application.Services;
 using ER_Recovery.Infrastructure.Data;
+using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Web.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,11 +14,19 @@ namespace ER_Recovery.Web
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+
+            // HttpClient
             builder.Services.AddHttpClient<IDailyReflectionService, DailyReflectionService>();
+            
+            // DbContext
             builder.Services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Services
+            builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
+            builder.Services.AddScoped<IMeetingsService, MeetingsService>();
 
             var app = builder.Build();
 
