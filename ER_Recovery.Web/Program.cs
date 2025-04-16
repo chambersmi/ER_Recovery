@@ -3,6 +3,9 @@ using ER_Recovery.Infrastructure.Data;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Web.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using ER_Recovery.Infrastructure.Utility;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ER_Recovery.Web
 {
@@ -24,9 +27,19 @@ namespace ER_Recovery.Web
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            // Remove if we do not want email confirmation
+            //builder.Services.AddDefaultIdentity<IdentityUser>(
+            //    options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<AppDbContext>();
+
+            builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+                options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<AppDbContext>();
+
             // Services
             builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
 
             var app = builder.Build();
 
@@ -41,7 +54,8 @@ namespace ER_Recovery.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            // Add Authentication
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapStaticAssets();
