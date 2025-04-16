@@ -14,6 +14,6 @@ namespace ER_Recovery.Domains.Enums
         Wednesday = 3,
         Thursday = 4,
         Friday = 5,
-        Saturday = 6        
+        Saturday = 6      
     }
 }
