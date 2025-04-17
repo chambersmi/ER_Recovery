@@ -1,10 +1,14 @@
-﻿using ER_Recovery.Infrastructure.Data.Repositories;
+﻿using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Domains.Models.ViewModels;
+using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Web.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ER_Recovery.Application.Services
@@ -26,6 +30,28 @@ namespace ER_Recovery.Application.Services
             Meetings = await _meetingRepository.GetAllMeetingsAsync();
 
             return Meetings;
+        }
+
+        public async Task<Meeting> AddMeetingAsync(AddMeetingDTO meetingDTO)
+        {
+            // Consider AutoMapper
+            var meeting = new Meeting
+            {
+                Day = meetingDTO.Day,
+                Time = meetingDTO.Time,
+                Description = meetingDTO.Description,
+                Location = meetingDTO.Location,
+                Address = meetingDTO.Address,
+                City = meetingDTO.City,
+                State = meetingDTO.State,
+                OpenMeeting = meetingDTO.OpenMeeting
+            };
+
+            await _meetingRepository.AddMeetingAsync(meeting);
+
+            
+
+            return meeting;           
         }
     }
 }

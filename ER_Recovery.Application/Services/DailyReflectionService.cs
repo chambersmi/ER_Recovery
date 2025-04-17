@@ -27,11 +27,15 @@ namespace ER_Recovery.Web.Services
             var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
+            File.WriteAllText("daily.html", html);
+
             var article = doc.DocumentNode.SelectSingleNode("//article[contains(@class, 'node--type-daily-reflection')]");
+
             if (article == null)
                 throw new Exception("Unable to find the daily reflection element.");
 
-            var titleNode = article.SelectSingleNode(".//h3/span");
+            var titleNode = article.SelectSingleNode(".//h3/span") ?? article.SelectSingleNode(".//h3");
+
             var title = WebUtility.HtmlDecode(titleNode?.InnerText.Trim() ?? " Daily Reflection");
 
             var currentMonth = DateTime.Now.ToString("MMMM");

@@ -59,6 +59,9 @@ namespace ER_Recovery.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
+            // Static files
+            app.UseStaticFiles();
+
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();

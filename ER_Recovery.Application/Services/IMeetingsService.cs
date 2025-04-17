@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Web.Models;
+﻿using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace ER_Recovery.Application.Services
     public interface IMeetingsService
     {
         Task<List<Meeting>> GetScheduledMeetings();
+        Task<Meeting> AddMeetingAsync(AddMeetingDTO meetingDTO);
     }
 }

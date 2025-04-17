@@ -1,5 +1,9 @@
 ﻿<!DOCTYPE html>
+
+
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -21,23 +25,34 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark manual-line" asp-area="" aria-current="page" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AA/Meetings">Meetings</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AA/DailyReflections">Daily Reflections</a>
+                            <a class="nav-link text-dark  manual-line " asp-area="" asp-page="/AA/Meetings">Meetings</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AA/Resources">Resources</a>
+                            <a class="nav-link text-dark manual-line" href="https://www.aa.org/daily-reflections" target="_blank">Daily Reflections</a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark manual-line" href=" https://www.hazeldenbettyford.org/thought-for-the-day" target="_blank">Thought For The Day</a>
+                        </li>
+                      
+                        <li class="nav-item">
+                            <a class="nav-link text-dark manual-line " asp-area="" asp-page="/AA/Resources">Resources</a>
                         </li>
                     </ul>
-                    <partial name="_LoginPartial" />
-                </div>
 
+                    <div class="d-sm-none w-100 mt-2">
+                    <partial name="_LoginPartial" />
+                    </div>
+
+                    <div class="d-none d-sm-block">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
@@ -49,7 +64,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - ER_Recovery.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2025 - Chambers Media - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 

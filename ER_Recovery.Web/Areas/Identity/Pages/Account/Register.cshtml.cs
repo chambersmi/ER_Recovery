@@ -161,7 +161,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
                 user.Name = Input.Name;
 
-                // Check why dates are YYYY-MM-DD
+                //MCNOTE: Check why dates are YYYY-MM-DD
                 user.Birthdate = Input.Birthdate;
                 user.SobrietyDate = Input.SobrietyDate;
 

@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Web.Models;
+﻿using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,6 +24,14 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
         public async Task<List<Meeting>> GetAllMeetingsAsync()
         {
             return await _context.Meetings.ToListAsync();
+        }
+
+        public async Task<Meeting> AddMeetingAsync(Meeting meeting)
+        {
+            await _context.Meetings.AddAsync(meeting);
+            await _context.SaveChangesAsync();
+
+            return meeting;
         }
     }
 }
