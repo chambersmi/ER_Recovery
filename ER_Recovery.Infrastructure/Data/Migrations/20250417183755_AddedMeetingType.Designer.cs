@@ -3,6 +3,7 @@ using System;
 using ER_Recovery.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250417183755_AddedMeetingType")]
+    partial class AddedMeetingType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
@@ -47,7 +50,7 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                     b.Property<string>("State")
                         .HasColumnType("TEXT");
 
-                    b.Property<TimeSpan>("Time")
+                    b.Property<DateTime>("Time")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

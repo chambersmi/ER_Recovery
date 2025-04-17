@@ -1,6 +1,7 @@
 ﻿@page
 @model ER_Recovery.Web.Pages.AA.ResourcesModel
-@{
+@{    
+    Layout = "_LayoutAA";
 }
 
 <div class="container">
@@ -10,31 +11,27 @@
                 <thead>
                     <tr>
                     <th>Resource</th>
+                    <th>Link</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr>
-                        <td>AA Lansing</td>
+                        <td>AA Lansing Meetings</td>
+                        <td><a href="https://aalansingmi.org/meetings/" target="_blank">Link</a></td>
                     </tr>
+                    <tr>
+                        <td>Daily Reflections</td>
+                        <td><a href="https://www.aa.org/daily-reflections" target="_blank">Link</a></td>
+                    </tr>
+                    <tr>
+                        <td>Thought for the Day</td>
+                        <td><a href="https://www.hazeldenbettyford.org/thought-for-the-day" target="_blank">Link</a></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
 
-        <div class="col-md-6">
-            <table class="table">
-            <thead>
-                <tr>
-                    <th>Link</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="https://aalansingmi.org/" target="_blank">AA Lansing</a></td>
-                </tr>
-
-            </tbody>
-            </table>
-        </div>
     </div>
 </div>

@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Infrastructure.Data;
+﻿using ER_Recovery.Domains.Enums;
+using ER_Recovery.Infrastructure.Data;
 using ER_Recovery.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,118 +36,127 @@ namespace ER_Recovery.Web
                 new Meeting
                 {
                     Id = 1,
-                    Day = DayOfWeek.Sunday,
-                    Time = "8:00 PM",
+                    Day = MeetingDay.Sunday,
+                    Time = new TimeSpan(20, 0, 0),
                     Location = "Church of Nazarene",
                     Description = "AA Topic Meeting",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = true
+                    OpenMeeting = true,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 2,
-                    Day = DayOfWeek.Monday,
-                    Time = "5:00 PM",
+                    Day = MeetingDay.Monday,
+                    Time = new TimeSpan(17, 0, 0),
                     Location = "Church of Nazarene",
                     Description = "AA 12 and 12",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 3,
-                    Day = DayOfWeek.Monday,
-                    Time = "7:00 PM",
+                    Day = MeetingDay.Monday,
+                    Time = new TimeSpan(19, 0, 0),
                     Location = "Eaton Rapids Assembly of God",
                     Description = "",
                     Address = "2764 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 4,
-                    Day = DayOfWeek.Tuesday,
-                    Time = "5:00 PM",
+                    Day = MeetingDay.Tuesday,
+                    Time = new TimeSpan(17, 0, 0),
                     Location = "Church of Nazarene",
                     Description = "AA Beginners Meeting",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 5,
-                    Day = DayOfWeek.Tuesday,
-                    Time = "7:00 PM",
+                    Day = MeetingDay.Tuesday,
+                    Time = new TimeSpan(19, 0, 0),
                     Location = "Eaton Rapids Assembly of God",
                     Description = "",
                     Address = "2764 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 6,
-                    Day = DayOfWeek.Wednesday,
-                    Time = "5:00 PM",
+                    Day = MeetingDay.Wednesday,
+                    Time = new TimeSpan(17, 0, 0),
                     Location = "Church of Nazarene",
                     Description = "AA Topic Meeting",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 7,
-                    Day = DayOfWeek.Thursday,
-                    Time = "6:30 PM",
+                    Day = MeetingDay.Thursday,
+                    Time = new TimeSpan(18, 30, 0),
                     Location = "Church of Nazarene",
                     Description = "Mens Group (Men Only)",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 8,
-                    Day = DayOfWeek.Friday,
-                    Time = "7:00 PM",
+                    Day = MeetingDay.Friday,
+                    Time = new TimeSpan(19, 0, 0),
                     Location = "Eaton Rapids Assembly of God",
                     Description = "",
                     Address = "2225 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 },
 
                 new Meeting
                 {
                     Id = 9,
-                    Day = DayOfWeek.Saturday,
-                    Time = "9:00 AM",
+                    Day = MeetingDay.Saturday,
+                    Time = new TimeSpan(9, 0, 0),
                     Location = "Church of Nazarene",
                     Description = "AA Big Book Meeting",
                     Address = "2764 S. Michigan Rd",
                     City = "Eaton Rapids",
                     State = "MI",
-                    OpenMeeting = false
+                    OpenMeeting = false,
+                    MeetingType = MeetingType.AA
                 }
 
             };

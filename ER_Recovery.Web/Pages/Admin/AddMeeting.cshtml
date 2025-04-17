@@ -13,8 +13,15 @@
 
                 <!-- MAKE SELECT DROPDOWN -->
                 <div class="mb-3">
+                    <label for="AddMeetingDTO.MeetingType" class="form-label">Meeting Type</label>
+                    <select asp-for="AddMeetingDTO.MeetingType" asp-items="Model.MeetingTypeSelectList" class="form-select">
+                        <option disabled selected>-Select Meeting Type-</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
                     <label for="AddMeetingDTO.Day" class="form-label">Day of Week</label>
-                    <select asp-for="AddMeetingDTO.Day" asp-items="Model.DaysOfWeek" class="form-select">
+                    <select asp-for="AddMeetingDTO.Day" asp-items="Model.DaysOfWeekSelectList" class="form-select">
                     <option disabled selected>-Select Day of Week-</option>
                     </select>
                 </div>

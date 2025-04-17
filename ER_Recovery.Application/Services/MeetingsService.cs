@@ -44,7 +44,8 @@ namespace ER_Recovery.Application.Services
                 Address = meetingDTO.Address,
                 City = meetingDTO.City,
                 State = meetingDTO.State,
-                OpenMeeting = meetingDTO.OpenMeeting
+                OpenMeeting = meetingDTO.OpenMeeting,
+                MeetingType = meetingDTO.MeetingType
             };
 
             await _meetingRepository.AddMeetingAsync(meeting);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ER_Recovery.Domains.Enums
 {
-    public enum DayOfWeek
+    public enum MeetingDay
     {
         Sunday = 0,
         Monday = 1,

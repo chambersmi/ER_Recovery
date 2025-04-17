@@ -1,11 +1,16 @@
 ﻿@page
+@using ER_Recovery.Domains.Enums
 @model ER_Recovery.Web.Pages.AA.MeetingsModel
-@{
-    ViewData["Title"] = "AA Meetings";
-    var currentDay = DateTime.UtcNow.DayOfWeek;
-    var todaysMeetings = Model.Meetings.Where(m => m.Day == currentDay).OrderBy(m => m.Time).ToList();
-    var otherMeetings = Model.Meetings.Where(m => m.Day != currentDay).OrderBy(m => m.Day).ThenBy(m => m.Time).ToList();
 
+@{
+    Layout = "_LayoutAA";
+
+    ViewData["Title"] = "AA Meetings";
+    var currentDay = (MeetingDay)DateTime.UtcNow.DayOfWeek;
+    var todaysMeetings = Model.Meetings.Where(m => m.Day == currentDay).Where(m => m.MeetingType == MeetingType.AA)
+    .OrderBy(m => m.Time).ToList();
+    var otherMeetings = Model.Meetings.Where(m => m.Day != currentDay).Where(m => m.MeetingType == MeetingType.AA)
+    .OrderBy(m => m.Day).ThenBy(m => m.Time).ToList();
 }
 
 <div class="container mt-5">
@@ -14,7 +19,7 @@
     <!-- CHECK IF THERE ARE MEETINGS TODAY -->
     @if(todaysMeetings.Any())
     {
-        <h3 class="text-primary">Today's Meetings (@currentDay)</h3>
+        <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -35,7 +40,7 @@
                     {
                     <tr>
                         <td>@meeting.Day</td>
-                        <td>@meeting.Time</td>
+                        <td>@DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</td>
                         <td>@meeting.Location</td>
                         <td>@meeting.Description</td>
                         <td>@meeting.Address</td>
@@ -81,7 +86,7 @@
             {
                 <tr>
                     <td>@meeting.Day</td>
-                    <td>@meeting.Time</td>
+                    <td>@DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</td>
                     <td>@meeting.Location</td>
                     <td>@meeting.Description</td>
                     <td>@meeting.Address</td>

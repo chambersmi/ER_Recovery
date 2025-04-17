@@ -1,4 +1,5 @@
 using ER_Recovery.Application.Services;
+using ER_Recovery.Domains.Enums;
 using ER_Recovery.Domains.Models.DTOs;
 using ER_Recovery.Domains.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,8 +17,10 @@ namespace ER_Recovery.Web.Pages.Admin
 
         [BindProperty]
         public AddMeetingDTO AddMeetingDTO { get; set; } = new AddMeetingDTO();
-        public DayOfWeek? Day { get; set; } = null;
-        public List<SelectListItem> DaysOfWeek { get; set; }
+        public MeetingDay? MeetingDayEnum { get; set; } = null;
+        public MeetingType? MeetingTypeEnum { get; set; } = null;
+        public List<SelectListItem> DaysOfWeekSelectList { get; set; }
+        public List<SelectListItem> MeetingTypeSelectList { get; set; }
 
         public AddMeetingModel(IMeetingsService meetingService)
         {
@@ -26,13 +29,21 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public void OnGet()
         {
-            DaysOfWeek = Enum.GetValues(typeof(DayOfWeek))
-                .Cast<DayOfWeek>()
+            DaysOfWeekSelectList = Enum.GetValues(typeof(MeetingDay))
+                .Cast<MeetingDay>()
                 .Select(d => new SelectListItem
                 {
                     Text = d.ToString(),
                     Value = d.ToString()
                 }).ToList();
+
+            MeetingTypeSelectList = Enum.GetValues(typeof(MeetingType))
+                .Cast<MeetingType>()
+                .Select(d => new SelectListItem
+                {
+                    Text = d.ToString(),
+                    Value = d.ToString()
+                }).ToList(); ;
         }
 
         public async Task<IActionResult> OnPostAsync()
