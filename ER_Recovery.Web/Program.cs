@@ -34,7 +34,8 @@ namespace ER_Recovery.Web
 
             builder.Services.AddIdentity<IdentityUser, IdentityRole>(
                 options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             // Services
             builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();

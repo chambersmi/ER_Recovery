@@ -17,6 +17,7 @@
                 <label asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
+
             <div class="form-floating mb-3">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <label asp-for="Input.Password">Password</label>
@@ -27,6 +28,32 @@
                 <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
+            <div class="form-floating mb-3">
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                    <option disabled selected>-Select Role</option>
+                </select>                                               
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Name" class="form-control" placeholder="Anonymous (default)" />
+                <label asp-for="Input.Name">Username</label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Birthdate" class="form-control" placeholder="MM/DD/YYYY" />
+                <label asp-for="Input.Birthdate"></label>
+                <span asp-validation-for="Input.Birthdate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Input.SobrietyDate" class="form-control" placeholder="Anonymous (default)" />
+                <label asp-for="Input.SobrietyDate"></label>
+                <span asp-validation-for="Input.SobrietyDate" class="text-danger"></span>
+            </div>
+
+
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>

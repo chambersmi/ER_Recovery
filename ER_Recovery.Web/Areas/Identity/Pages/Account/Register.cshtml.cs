@@ -17,7 +17,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
@@ -101,6 +103,24 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            public string? Role { get; set; }
+
+            // Move this later
+            [ValidateNever]
+            public IEnumerable<SelectListItem> RoleList { get; set; }
+
+            [DataType(DataType.Text)]
+            [Display(Name = "Username")]
+            public string Name { get; set; } = "Anonymous";
+
+            [DataType(DataType.Date)]
+            [Display(Name = "Birthdate")]
+            public DateTime? Birthdate { get; set; }
+
+            [DataType(DataType.Date)]
+            [Display(Name = "Sobriety Date")]
+            public DateTime? SobrietyDate { get; set; }
         }
 
 
@@ -114,6 +134,16 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
             }
 
+            // Populate RoleList
+            Input = new()
+            {
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                {
+                    Text = i,
+                    Value = i
+                })
+            };
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -126,13 +156,30 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);                
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                user.Name = Input.Name;
+
+                // Check why dates are YYYY-MM-DD
+                user.Birthdate = Input.Birthdate;
+                user.SobrietyDate = Input.SobrietyDate;
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    // Assign role to user
+                    if(!String.IsNullOrEmpty(Input.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.Role);
+                    } 
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, UserRoles.Role_User);
+                    }
+
+                        _logger.LogInformation("User created a new account with password.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

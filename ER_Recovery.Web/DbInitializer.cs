@@ -6,6 +6,7 @@ namespace ER_Recovery.Web
 {
     public class DbInitializer
     {
+
         public static void InitDb(WebApplication app)
         {
             using var scope = app.Services.CreateScope();
@@ -17,12 +18,17 @@ namespace ER_Recovery.Web
 
         public static void SeedData(AppDbContext context)
         {
+
             context.Database.Migrate();
 
-            if(context.Meetings.Any())
+
+            if (context.Meetings.Any())
             {
                 return;
             }
+
+
+
 
             var meetings = new List<Meeting>
             {
