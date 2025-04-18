@@ -13,13 +13,12 @@ namespace ER_Recovery.Web.Pages.Admin
         private readonly IMeetingsService _meetingService;
         private readonly ILogger<UpdateDeleteMeetingModel> _logger;
 
-        [BindProperty]
-
         public MeetingDay? MeetingDayEnum { get; set; } = null;
         public MeetingType? MeetingTypeEnum { get; set; } = null;
         public List<SelectListItem> DaysOfWeekSelectList { get; set; }
         public List<SelectListItem> MeetingTypeSelectList { get; set; }
 
+        [BindProperty]
         public EditMeetingDTO EditMeetingDTO { get; set; } = new EditMeetingDTO();
 
         public UpdateDeleteMeetingModel(IMeetingsService meetingService, ILogger<UpdateDeleteMeetingModel> logger)
@@ -37,6 +36,7 @@ namespace ER_Recovery.Web.Pages.Admin
             {
                 EditMeetingDTO = new EditMeetingDTO
                 {
+                    Id = meetingRequest.Id,
                     Day = meetingRequest.Day,
                     Time = meetingRequest.Time,
                     Description = meetingRequest.Description,
@@ -74,6 +74,7 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public async Task<IActionResult> OnPostEdit()
         {
+
             if(ModelState.IsValid)
             {
                 try

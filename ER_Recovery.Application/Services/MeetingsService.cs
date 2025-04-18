@@ -24,7 +24,7 @@ namespace ER_Recovery.Application.Services
         {
             var meetings = await _meetingRepository.GetAllMeetingsAsync();
 
-            if (meetings != null)
+            if (meetings != null)                
             {
                 return meetings.Select(m => new MeetingDTO
                 {
@@ -55,6 +55,7 @@ namespace ER_Recovery.Application.Services
 
             return new MeetingDTO
             {
+                Id = existingMeeting.Id,
                 Day = existingMeeting.Day.GetValueOrDefault(),
                 Time = existingMeeting.Time,
                 Description = existingMeeting.Description,
@@ -73,6 +74,7 @@ namespace ER_Recovery.Application.Services
             // Consider AutoMapper
             var meeting = new Meeting
             {
+                Id = meetingDTO.Id,
                 Day = meetingDTO.Day,
                 Time = meetingDTO.Time,
                 Description = meetingDTO.Description,
@@ -88,6 +90,7 @@ namespace ER_Recovery.Application.Services
 
             return new MeetingDTO
             {
+                Id = meetingResponse.Id,
                 Day = meetingResponse.Day.GetValueOrDefault(),
                 Time = meetingResponse.Time,
                 Description = meetingResponse.Description,
@@ -107,6 +110,7 @@ namespace ER_Recovery.Application.Services
             if (existingMeeting == null)
                 throw new KeyNotFoundException($"Meeting with ID {meetingDTO.Id} not found.");
 
+            existingMeeting.Id = meetingDTO.Id;
             existingMeeting.Day = meetingDTO.Day;
             existingMeeting.Time = meetingDTO.Time;
             existingMeeting.Description = meetingDTO.Description;
@@ -121,6 +125,7 @@ namespace ER_Recovery.Application.Services
 
             return new MeetingDTO
             {
+                Id = meetingResponse.Id,
                 Day = meetingResponse.Day.GetValueOrDefault(),
                 Time = meetingResponse.Time,
                 Description = meetingResponse.Description,
