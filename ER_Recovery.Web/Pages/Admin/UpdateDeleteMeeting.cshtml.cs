@@ -1,10 +1,12 @@
 using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Enums;
 using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Domains.Models.ViewModels;
 using ER_Recovery.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.Json;
 
 namespace ER_Recovery.Web.Pages.Admin
 {
@@ -92,12 +94,20 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public async Task<IActionResult> OnPostDelete(int id)
         {
-         
+        
             try
             {
                 var success = await _meetingService.DeleteMeetingByIdAsync(id);
 
-                if(!success)
+                var notification = new Notifications
+                {
+                    Type = NotificationType.Success,
+                    Message = "Meeting successfully removed!"
+                };
+
+                TempData["Notification"] = JsonSerializer.Serialize(notification);
+
+                if (!success)
                 {
                     ModelState.AddModelError("", "Failed to delete meeting.");
                     return Page();
@@ -109,6 +119,13 @@ namespace ER_Recovery.Web.Pages.Admin
             {
                 _logger.LogError(ex, $"Error deleting meeting with ID: {id}");
                 ModelState.AddModelError("", "An unexpected error has occured.");
+
+                var notification = new Notifications
+                {
+                    Type = NotificationType.Error,
+                    Message = "Error in deleting meeting."
+                };
+
                 return Page();
             }
 

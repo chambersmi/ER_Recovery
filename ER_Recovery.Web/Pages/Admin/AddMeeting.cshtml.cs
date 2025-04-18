@@ -14,17 +14,19 @@ namespace ER_Recovery.Web.Pages.Admin
     public class AddMeetingModel : PageModel
     {
         private readonly IMeetingsService _meetingService;
+        private readonly ILogger<AddMeetingModel> _logger;
 
         [BindProperty]
         public AddMeetingDTO AddMeetingDTO { get; set; } = new AddMeetingDTO();
         public MeetingDay? MeetingDayEnum { get; set; } = null;
         public MeetingType? MeetingTypeEnum { get; set; } = null;
-        public List<SelectListItem> DaysOfWeekSelectList { get; set; }
-        public List<SelectListItem> MeetingTypeSelectList { get; set; }
+        public List<SelectListItem> DaysOfWeekSelectList { get; set; } = new();
+        public List<SelectListItem> MeetingTypeSelectList { get; set; } = new();
 
-        public AddMeetingModel(IMeetingsService meetingService)
+        public AddMeetingModel(ILogger<AddMeetingModel> logger, IMeetingsService meetingService)
         {
             _meetingService = meetingService;
+            _logger = logger;
         }
 
         public void OnGet()
@@ -49,17 +51,32 @@ namespace ER_Recovery.Web.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
 
-            await _meetingService.AddMeetingAsync(AddMeetingDTO);
-
-            var notification = new Notifications
+            try
             {
-                Type = Domains.Enums.NotificationType.Success,
-                Message = "Meeting successfully added!"
-            };
+                await _meetingService.AddMeetingAsync(AddMeetingDTO);
 
-            TempData["Notification"] = JsonSerializer.Serialize(notification);
+                var notification = new Notifications
+                {
+                    Type = Domains.Enums.NotificationType.Success,
+                    Message = "Meeting successfully added!"
+                };
 
-            return RedirectToPage("/AA/Meetings");
+                TempData["Notification"] = JsonSerializer.Serialize(notification);
+
+                return RedirectToPage("/AA/Meetings");
+
+            } catch (Exception ex)
+            {
+                var notification = new Notifications
+                {
+                    Type = NotificationType.Error,
+                    Message = "Error in adding meeting."
+                };
+
+                _logger.LogError($"Error when adding meeting: {ex.Message}");
+
+                return Page();
+            }
         }
     }
 }
