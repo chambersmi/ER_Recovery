@@ -13,8 +13,9 @@
     .OrderBy(m => m.Day).ThenBy(m => m.Time).ToList();
 }
 
-<div class="container mt-5">
+<partial name="_Notifications">
 
+<div class="container mt-5">
 
     <!-- CHECK IF THERE ARE MEETINGS TODAY -->
     @if (todaysMeetings.Any())

@@ -80,7 +80,6 @@ namespace ER_Recovery.Web.Pages.Admin
                 try
                 {
                     await _meetingService.UpdateMeetingAsync(EditMeetingDTO);
-
                     return RedirectToPage("/AA/Meetings");
                 } catch (Exception ex)
                 {

@@ -59,9 +59,7 @@ namespace ER_Recovery.Web.Pages.Admin
 
             TempData["Notification"] = JsonSerializer.Serialize(notification);
 
-            return RedirectToPage("/Meetings");
+            return RedirectToPage("/AA/Meetings");
         }
-
-
     }
 }

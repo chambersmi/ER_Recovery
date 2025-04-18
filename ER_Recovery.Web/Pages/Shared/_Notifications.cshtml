@@ -1,11 +1,9 @@
-﻿@page
-@using ER_Recovery.Domains.Models.ViewModels
+﻿@using ER_Recovery.Domains.Models.ViewModels
 
-@* @model ER_Recovery.Web.Pages.Shared._NotificationsModel
- *@
 @{
     // Get values of the ViewData
     var notification = (Notifications)ViewData["Notification"];
+    
     if(notification != null)
     {
         var notificationClass = "";
@@ -27,10 +25,25 @@
         }
 
         <div action="container" mb-5>
-            <div class="alert @notificationClass alert-dismissible fade show mb-5" role="alert">
+            <div class="alert @notificationClass alert-dismissible fade show mb-5" role="alert" id="notification">
                 @Html.Raw(notification.Message)
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close Success Message Box"></button>
             </div>
         </div>
     }
 }
+
+<script>
+    setTimeout(function() {
+        document.getElementById('notification');
+
+        if(notification) {
+            notification.style.transition = 'opacity 0.5s ease';
+            notification.style.opacity = '0';
+
+            setTimeout(function() {
+                notification.remove();
+            }, 500);
+        }
+    }, 2000);
+</script>
