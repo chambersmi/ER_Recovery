@@ -9,6 +9,7 @@ namespace ER_Recovery.Domains.Models.DTOs
 {
     public class MeetingDTO
     {
+        public int Id { get; set; }
         public MeetingDay Day { get; set; }
         public TimeSpan Time { get; set; }
         public string? Description { get; set; }

@@ -12,5 +12,7 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
     {
         Task<List<Meeting>> GetAllMeetingsAsync();
         Task<Meeting> AddMeetingAsync(Meeting meetingDTO);
+        Task<Meeting> GetMeetingByIdAsync(int id);
+        Task<Meeting> UpdateMeetingAsync(Meeting meeting);
     }
 }

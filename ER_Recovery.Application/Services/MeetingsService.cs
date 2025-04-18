@@ -1,15 +1,10 @@
-﻿using ER_Recovery.Domains.Models.DTOs;
+﻿using ER_Recovery.Domains.Enums;
+using ER_Recovery.Domains.Models.DTOs;
 using ER_Recovery.Domains.Models.ViewModels;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Web.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace ER_Recovery.Application.Services
 {
@@ -17,7 +12,7 @@ namespace ER_Recovery.Application.Services
     {
         private readonly IMeetingRepository _meetingRepository;
         private readonly ILogger<MeetingsService> _logger;
-        public List<Meeting> Meetings { get; set; } = new List<Meeting>();
+
 
         public MeetingsService(ILogger<MeetingsService> logger, IMeetingRepository meetingsRepository)
         {
@@ -25,14 +20,55 @@ namespace ER_Recovery.Application.Services
             _logger = logger;
         }
 
-        public async Task<List<Meeting>> GetScheduledMeetings()
+        public async Task<List<MeetingDTO>> GetScheduledMeetings()
         {
-            Meetings = await _meetingRepository.GetAllMeetingsAsync();
+            var meetings = await _meetingRepository.GetAllMeetingsAsync();
 
-            return Meetings;
+            if (meetings != null)
+            {
+                return meetings.Select(m => new MeetingDTO
+                {
+                    Id = m.Id,
+                    Day = m.Day.GetValueOrDefault(),
+                    Time = m.Time,
+                    Description = m.Description,
+                    Location = m.Location,
+                    Address = m.Address,
+                    City = m.City,
+                    State = m.State,
+                    OpenMeeting = m.OpenMeeting,
+                    MeetingType = m.MeetingType
+                }).ToList();
+            }
+
+            return new List<MeetingDTO>();
         }
 
-        public async Task<Meeting> AddMeetingAsync(AddMeetingDTO meetingDTO)
+        public async Task<MeetingDTO?> GetMeetingByIdAsync(int id)
+        {
+            var existingMeeting = await _meetingRepository.GetMeetingByIdAsync(id);
+
+            if (existingMeeting == null)
+            {
+                return null;
+            }
+
+            return new MeetingDTO
+            {
+                Day = existingMeeting.Day.GetValueOrDefault(),
+                Time = existingMeeting.Time,
+                Description = existingMeeting.Description,
+                Location = existingMeeting.Location,
+                Address = existingMeeting.Address,
+                City = existingMeeting.City,
+                State = existingMeeting.State,
+                OpenMeeting = existingMeeting.OpenMeeting,
+                MeetingType = existingMeeting.MeetingType
+            };
+        }
+
+
+        public async Task<MeetingDTO> AddMeetingAsync(AddMeetingDTO meetingDTO)
         {
             // Consider AutoMapper
             var meeting = new Meeting
@@ -48,11 +84,53 @@ namespace ER_Recovery.Application.Services
                 MeetingType = meetingDTO.MeetingType
             };
 
-            await _meetingRepository.AddMeetingAsync(meeting);
+            var meetingResponse = await _meetingRepository.AddMeetingAsync(meeting);
 
-            
+            return new MeetingDTO
+            {
+                Day = meetingResponse.Day.GetValueOrDefault(),
+                Time = meetingResponse.Time,
+                Description = meetingResponse.Description,
+                Location = meetingResponse.Location,
+                Address = meetingResponse.Address,
+                City = meetingResponse.City,
+                State = meetingResponse.State,
+                OpenMeeting = meetingResponse.OpenMeeting,
+                MeetingType = meetingResponse.MeetingType
+            };
+        }
 
-            return meeting;           
+        public async Task<MeetingDTO> UpdateMeetingAsync(EditMeetingDTO meetingDTO)
+        {
+            var existingMeeting = await _meetingRepository.GetMeetingByIdAsync(meetingDTO.Id);
+
+            if (existingMeeting == null)
+                throw new KeyNotFoundException($"Meeting with ID {meetingDTO.Id} not found.");
+
+            existingMeeting.Day = meetingDTO.Day;
+            existingMeeting.Time = meetingDTO.Time;
+            existingMeeting.Description = meetingDTO.Description;
+            existingMeeting.Location = meetingDTO.Location;
+            existingMeeting.Address = meetingDTO.Address;
+            existingMeeting.City = meetingDTO.City;
+            existingMeeting.State = meetingDTO.State;
+            existingMeeting.OpenMeeting = meetingDTO.OpenMeeting;
+            existingMeeting.MeetingType = meetingDTO.MeetingType;
+
+            var meetingResponse = await  _meetingRepository.UpdateMeetingAsync(existingMeeting);
+
+            return new MeetingDTO
+            {
+                Day = meetingResponse.Day.GetValueOrDefault(),
+                Time = meetingResponse.Time,
+                Description = meetingResponse.Description,
+                Location = meetingResponse.Location,
+                Address = meetingResponse.Address,
+                City = meetingResponse.City,
+                State = meetingResponse.State,
+                OpenMeeting = meetingResponse.OpenMeeting,
+                MeetingType = meetingResponse.MeetingType
+            };
         }
     }
 }

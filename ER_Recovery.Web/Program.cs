@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace ER_Recovery.Web
 {
@@ -41,6 +42,12 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+            // Anti Forgery issue with Docker
+            var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");
+            builder.Services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo(keyPath))
+                .SetApplicationName("ER_Recovery.Web");
 
             var app = builder.Build();
 

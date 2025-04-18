@@ -10,7 +10,9 @@ namespace ER_Recovery.Application.Services
 {
     public interface IMeetingsService
     {
-        Task<List<Meeting>> GetScheduledMeetings();
-        Task<Meeting> AddMeetingAsync(AddMeetingDTO meetingDTO);
+        Task<MeetingDTO> AddMeetingAsync(AddMeetingDTO meetingDTO);
+        Task<MeetingDTO> UpdateMeetingAsync(EditMeetingDTO meetingDTO);
+        Task<MeetingDTO?> GetMeetingByIdAsync(int id);
+        Task<List<MeetingDTO>> GetScheduledMeetings();
     }
 }

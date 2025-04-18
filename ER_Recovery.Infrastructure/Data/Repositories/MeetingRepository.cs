@@ -26,11 +26,24 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
             return await _context.Meetings.ToListAsync();
         }
 
+        public async Task<Meeting> GetMeetingByIdAsync(int id)
+        {
+            return await _context.Meetings.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
         public async Task<Meeting> AddMeetingAsync(Meeting meeting)
         {
             await _context.Meetings.AddAsync(meeting);
             await _context.SaveChangesAsync();
 
+            return meeting;
+        }
+
+        public async Task<Meeting> UpdateMeetingAsync(Meeting meeting)
+        {
+            _context.Meetings.Update(meeting);
+            await _context.SaveChangesAsync();
+            
             return meeting;
         }
     }

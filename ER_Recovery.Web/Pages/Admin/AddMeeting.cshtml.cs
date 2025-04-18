@@ -43,22 +43,11 @@ namespace ER_Recovery.Web.Pages.Admin
                 {
                     Text = d.ToString(),
                     Value = d.ToString()
-                }).ToList(); ;
+                }).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            //var meeting = new Meeting()
-            //{
-            //    Day = AddMeetingDTO.Day,
-            //    Time = AddMeetingDTO.Time,
-            //    Description = AddMeetingDTO.Description,
-            //    Location = AddMeetingDTO.Location,
-            //    Address = AddMeetingDTO.Address,
-            //    City = AddMeetingDTO.City,
-            //    State = AddMeetingDTO.State,
-            //    OpenMeeting = AddMeetingDTO.OpenMeeting                
-            //};
 
             await _meetingService.AddMeetingAsync(AddMeetingDTO);
 

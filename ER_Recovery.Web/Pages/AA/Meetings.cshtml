@@ -17,7 +17,7 @@
 
 
     <!-- CHECK IF THERE ARE MEETINGS TODAY -->
-    @if(todaysMeetings.Any())
+    @if (todaysMeetings.Any())
     {
         <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
         <table class="table table-striped">
@@ -31,13 +31,14 @@
                     <th>City</th>
                     <th>State</th>
                     <th>Closed Meeting?</th>
+                    <th>Action</th>
                 </tr>
             </thead>
 
             <tbody>
 
-                    @foreach(var meeting in todaysMeetings)
-                    {
+                @foreach (var meeting in todaysMeetings)
+                {
                     <tr>
                         <td>@meeting.Day</td>
                         <td>@DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</td>
@@ -54,13 +55,14 @@
                         {
                             <td style="color: red;font-weight: 800">Closed Meeting</td>
                         }
+                        <td><a asp-page="/Admin/UpdateDeleteMeeting" asp-route-id="@meeting.Id">Edit</a></td>
                     </tr>
-                    }
-              
+                }
+
             </tbody>
         </table>
     }
-    else 
+    else
     {
         <p class="text-danger">No meetings are scheduled for today.</p>
         <p class="text-secondary">Check Charlotte or Lansing</p>
@@ -78,6 +80,7 @@
                 <th>City</th>
                 <th>State</th>
                 <th>Closed Meeting?</th>
+                <th>Action</th>
             </tr>
         </thead>
 
@@ -99,7 +102,8 @@
                     else
                     {
                         <td style="color: red;font-weight: 800;">Closed Meeting</td>
-                    }
+                    }     
+                    <td><a asp-page="/Admin/UpdateDeleteMeeting" asp-route-id="@meeting.Id">Edit</a></td>
                 </tr>
             }
         </tbody>
