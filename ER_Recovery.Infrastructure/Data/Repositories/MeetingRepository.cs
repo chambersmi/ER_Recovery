@@ -46,5 +46,20 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
             
             return meeting;
         }
+
+        public async Task<bool> DeleteMeetingByIdAsync(int id)
+        {
+            var meetingRequest = await _context.Meetings.FindAsync(id);
+
+            if (meetingRequest != null)
+            {
+                _context.Meetings.Remove(meetingRequest);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
     }
 }

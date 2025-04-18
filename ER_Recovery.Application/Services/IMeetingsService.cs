@@ -14,5 +14,6 @@ namespace ER_Recovery.Application.Services
         Task<MeetingDTO> UpdateMeetingAsync(EditMeetingDTO meetingDTO);
         Task<MeetingDTO?> GetMeetingByIdAsync(int id);
         Task<List<MeetingDTO>> GetScheduledMeetings();
+        Task<bool> DeleteMeetingByIdAsync(int id);
     }
 }

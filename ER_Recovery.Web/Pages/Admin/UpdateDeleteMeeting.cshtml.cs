@@ -90,5 +90,29 @@ namespace ER_Recovery.Web.Pages.Admin
 
             return Page();
         }
+
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+         
+            try
+            {
+                var success = await _meetingService.DeleteMeetingByIdAsync(id);
+
+                if(!success)
+                {
+                    ModelState.AddModelError("", "Failed to delete meeting.");
+                    return Page();
+                }
+
+                return RedirectToPage("/AA/Meetings");
+            } 
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Error deleting meeting with ID: {id}");
+                ModelState.AddModelError("", "An unexpected error has occured.");
+                return Page();
+            }
+
+        }
     }
 }

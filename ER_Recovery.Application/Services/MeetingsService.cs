@@ -137,5 +137,10 @@ namespace ER_Recovery.Application.Services
                 MeetingType = meetingResponse.MeetingType
             };
         }
+
+        public async Task<bool> DeleteMeetingByIdAsync(int id)
+        {
+            return await _meetingRepository.DeleteMeetingByIdAsync(id);
+        }
     }
 }
