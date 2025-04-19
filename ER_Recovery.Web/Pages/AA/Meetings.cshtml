@@ -6,7 +6,7 @@
     Layout = "_LayoutAA";
 
     ViewData["Title"] = "AA Meetings";
-    var currentDay = (MeetingDay)DateTime.UtcNow.DayOfWeek;
+    var currentDay = (MeetingDay)DateTime.Now.DayOfWeek;
     var todaysMeetings = Model.Meetings.Where(m => m.Day == currentDay).Where(m => m.MeetingType == MeetingType.AA)
     .OrderBy(m => m.Time).ToList();
     var otherMeetings = Model.Meetings.Where(m => m.Day != currentDay).Where(m => m.MeetingType == MeetingType.AA)
@@ -15,13 +15,65 @@
 
 <partial name="_Notifications">
 
-<div class="container mt-5">
+    <div class="container mt-5">
 
-    <!-- CHECK IF THERE ARE MEETINGS TODAY -->
-    @if (todaysMeetings.Any())
-    {
-        <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
-        <table class="table table-striped">
+        <!-- CHECK IF THERE ARE MEETINGS TODAY -->
+        @if (todaysMeetings.Any())
+        {
+            <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time</th>
+                        <th>Location</th>
+                        <th>Meeting Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Closed Meeting?</th>
+                        <th style="color:red;">Admin Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var meeting in todaysMeetings)
+                    {
+                        <tr>
+                            <td>@meeting.Day</td>
+                            <td>@DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</td>
+                            <td>@meeting.Location</td>
+                            <td>@meeting.Description</td>
+                            <td>@meeting.Address</td>
+                            <td>@meeting.City</td>
+                            <td>@meeting.State</td>
+                            @if (meeting.OpenMeeting == true)
+                            {
+                                <td style="color: green;font-weight: 800;">Open Meeting</td>
+                            }
+                            else
+                            {
+                                <td style="color: red;font-weight: 800">Closed Meeting</td>
+                            }
+                            @if (User.IsInRole(UserRoles.Role_Admin))
+                            {
+                                <td><button><a asp-page="/Admin/UpdateDeleteMeeting" role="button" asp-route-id="@meeting.Id" style="color:red;text-decoration:none;font-weight:800;justify-content:center;">Edit</a></button></td>
+                            }
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-danger">No meetings are scheduled for today.</p>
+            <p class="text-secondary">Check Charlotte or Lansing</p>
+        }
+
+        <h3 class="mt-5">All Upcoming Meetings:</h3>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Day</th>
@@ -32,13 +84,12 @@
                     <th>City</th>
                     <th>State</th>
                     <th>Closed Meeting?</th>
-                    <th>Action</th>
+                    <th style="color:red;">Admin Action</th>
                 </tr>
             </thead>
 
             <tbody>
-
-                @foreach (var meeting in todaysMeetings)
+                @foreach (var meeting in otherMeetings)
                 {
                     <tr>
                         <td>@meeting.Day</td>
@@ -54,62 +105,17 @@
                         }
                         else
                         {
-                            <td style="color: red;font-weight: 800">Closed Meeting</td>
+                            <td style="color: red;font-weight: 800;">Closed Meeting</td>
                         }
-                        <td><a asp-page="/Admin/UpdateDeleteMeeting" asp-route-id="@meeting.Id">Edit</a></td>
+                        @if (User.IsInRole(UserRoles.Role_Admin))
+                        {
+                            <td><button><a asp-page="/Admin/UpdateDeleteMeeting" role="button" asp-route-id="@meeting.Id" style="color:red;text-decoration:none;font-weight:800;justify-content:center;">Edit</a></button></td>
+                        }
                     </tr>
                 }
-
             </tbody>
         </table>
-    }
-    else
-    {
-        <p class="text-danger">No meetings are scheduled for today.</p>
-        <p class="text-secondary">Check Charlotte or Lansing</p>
-    }
 
-    <h3 class="mt-5">All Upcoming Meetings:</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Time</th>
-                <th>Location</th>
-                <th>Meeting Name</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Closed Meeting?</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var meeting in otherMeetings)
-            {
-                <tr>
-                    <td>@meeting.Day</td>
-                    <td>@DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</td>
-                    <td>@meeting.Location</td>
-                    <td>@meeting.Description</td>
-                    <td>@meeting.Address</td>
-                    <td>@meeting.City</td>
-                    <td>@meeting.State</td>
-                    @if (meeting.OpenMeeting == true)
-                    {
-                        <td style="color: green;font-weight: 800;">Open Meeting</td>
-                    }
-                    else
-                    {
-                        <td style="color: red;font-weight: 800;">Closed Meeting</td>
-                    }     
-                    <td><a asp-page="/Admin/UpdateDeleteMeeting" asp-route-id="@meeting.Id">Edit</a></td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
-    <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
-</div>
+        <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
+        <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
+    </div>

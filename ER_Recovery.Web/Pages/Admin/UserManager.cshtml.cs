@@ -1,11 +1,14 @@
 using ER_Recovery.Domains.Models;
 using ER_Recovery.Domains.Models.ViewModels;
 using ER_Recovery.Infrastructure.Data.Repositories;
+using ER_Recovery.Infrastructure.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ER_Recovery.Web.Pages.Admin
 {
+    [Authorize(Roles = UserRoles.Role_Admin)]
     public class UserManagerModel : PageModel
     {
         private readonly IUserRepository _userRepo;

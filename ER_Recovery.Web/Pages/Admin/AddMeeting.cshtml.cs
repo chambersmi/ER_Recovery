@@ -2,6 +2,7 @@ using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Enums;
 using ER_Recovery.Domains.Models.DTOs;
 using ER_Recovery.Domains.Models.ViewModels;
+using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +11,7 @@ using System.Text.Json;
 
 namespace ER_Recovery.Web.Pages.Admin
 {
-    //[Authorize(Roles = "User")]
+    [Authorize(Roles = UserRoles.Role_Admin)]
     public class AddMeetingModel : PageModel
     {
         private readonly IMeetingsService _meetingService;
