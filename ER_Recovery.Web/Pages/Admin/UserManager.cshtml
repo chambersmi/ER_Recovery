@@ -9,7 +9,7 @@
 
 <div class="container mt-5">
     <h3 class="text-primary">Users</h3>
-    <table action="table table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>ID</th>
@@ -23,14 +23,23 @@
         <tbody>
             @foreach(var user in Model.UsersWithRoles)
             {                            
-            <tr>
-                <td>@user.User.Id</td>
-                <td>@user.User.UserName</td>
-                <td>@user.User.Email</td>
-                <td>@string.Join(", ", user.Roles)</td>   
-                <td>
-                    <form method="post" asp-page-handler="Promote" asp-route-id="@user.User.Id">
-                        <button type="submit" class="btn btn-primary">Promote to Admin</button>
+                <tr>
+                    <td>@user.User.Id</td>
+                    <td>@user.User.UserName</td>
+                    <td>@user.User.Email</td>
+                    <td>@string.Join(", ", user.Roles)</td>   
+                    <td>
+                        <form method="post" asp-page-handler="ChangeRole">
+                            <input type="hidden" name="userId" value="@user.User.Id"/>
+                            <select name="newRole" class="form-control">
+                                @foreach(var role in Model.AllRoles)
+                                {
+                                    <option value="@role" selected="@(role==user.SelectedRole)">
+                                        @role
+                                    </option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-1">Update</button>
                     </form>
                 </td>
             </tr>

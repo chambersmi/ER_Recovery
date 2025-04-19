@@ -43,9 +43,18 @@ namespace ER_Recovery.Web.Pages.Admin
             }
         }
 
-        public async Task OnPostPromote()
+        public async Task<IActionResult> OnPostChangeRoleAsync(string userId, string newRole)
         {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null || string.IsNullOrEmpty(newRole))
+                return RedirectToPage();
 
+            var currentRole = await _userManager.GetRolesAsync(user);
+            await _userManager.RemoveFromRolesAsync(user, currentRole);
+            await _userManager.AddToRoleAsync(user, newRole);
+
+            return RedirectToPage();
         }
+        
     }
 }
