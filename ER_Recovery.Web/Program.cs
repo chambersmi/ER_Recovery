@@ -33,7 +33,7 @@ namespace ER_Recovery.Web
             //    options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<AppDbContext>();
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
                 options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
@@ -42,6 +42,7 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             // Anti Forgery issue with Docker
             var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");

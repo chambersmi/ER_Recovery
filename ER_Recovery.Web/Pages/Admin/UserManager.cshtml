@@ -1,0 +1,41 @@
+﻿@page
+@model ER_Recovery.Web.Pages.Admin.UserManagerModel
+@{
+    Layout = "_LayoutAA";
+    ViewData["Title"] = "User Manager";
+}
+
+<partial name="_Notifications" />
+
+<div class="container mt-5">
+    <h3 class="text-primary">Users</h3>
+    <table action="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach(var user in Model.UsersWithRoles)
+            {                            
+            <tr>
+                <td>@user.User.Id</td>
+                <td>@user.User.UserName</td>
+                <td>@user.User.Email</td>
+                <td>@string.Join(", ", user.Roles)</td>   
+                <td>
+                    <form method="post" asp-page-handler="Promote" asp-route-id="@user.User.Id">
+                        <button type="submit" class="btn btn-primary">Promote to Admin</button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
