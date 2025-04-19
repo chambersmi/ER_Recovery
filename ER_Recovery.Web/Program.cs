@@ -33,10 +33,14 @@ namespace ER_Recovery.Web
             //    options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<AppDbContext>();
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
-                options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>(
+            //    options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<AppDbContext>()
+            //    .AddDefaultTokenProviders();
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
             // Services
             builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
