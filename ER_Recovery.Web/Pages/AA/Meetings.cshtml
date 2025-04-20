@@ -15,14 +15,15 @@
 
 <partial name="_Notifications">
 
-    <div class="container mt-5">
+    <div class="container mt-4">
 
         <!-- CHECK IF THERE ARE MEETINGS TODAY -->
         @if (todaysMeetings.Any())
         {
             <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
-            <table class="table table-bordered">
-                <thead>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm align-middle text-center">
+                <thead class="table-light">
                     <tr>
                         <th>Day</th>
                         <th>Time</th>
@@ -64,7 +65,8 @@
                     }
 
                 </tbody>
-            </table>
+                </table>
+            </div>
         }
         else
         {
@@ -73,8 +75,9 @@
         }
 
         <h3 class="mt-5">All Upcoming Meetings:</h3>
-        <table class="table table-bordered">
-            <thead>
+        <div class="table-responsive">
+        <table class="table table-bordered table-sm align-middle text-center">
+            <thead class="table-light">
                 <tr>
                     <th>Day</th>
                     <th>Time</th>
@@ -114,7 +117,9 @@
                     </tr>
                 }
             </tbody>
-        </table>
+            </table>
+        </div>
+
 
         <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
         <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
