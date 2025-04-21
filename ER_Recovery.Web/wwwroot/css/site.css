@@ -1,6 +1,6 @@
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {
@@ -48,7 +48,6 @@ html {
 
 body {
   margin-bottom: 60px;
-  color: green;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
