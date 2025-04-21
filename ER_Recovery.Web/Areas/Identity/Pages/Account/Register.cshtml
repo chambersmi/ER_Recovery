@@ -29,6 +29,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
+            <p class="link-info">Admin roles allow for more functions. <i>Development only.</i></p>
             <div class="form-floating mb-3">
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                     <option disabled selected>-Select Role</option>

@@ -30,7 +30,7 @@
 
                 <div class="mb-3">
                     <label for="AddMeetingDTO.Time" class="form-label">Time (HH:MM)</label>
-                    <input type="text" class="form-control id="time" asp-for="AddMeetingDTO.Time" placeholder="HH:MM AM/PM (7:00 PM)" />
+                    <input type="time" class="form-control id="time" asp-for="AddMeetingDTO.Time" step="60" placeholder="HH:MM" />
                 </div>
 
                 <div class="mb-3">

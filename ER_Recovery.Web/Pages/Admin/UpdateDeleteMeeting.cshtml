@@ -7,7 +7,7 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h2 class="text-center mb-4">Add Meeting</h2>
+            <h2 class="text-center mb-4">Edit Meeting</h2>
             <form id="addMeetingForm" method="post">
                 @Html.AntiForgeryToken()
                 <hr />
@@ -29,7 +29,7 @@
 
                 <div class="mb-3">
                     <label for="EditMeetingDTO.Time" class="form-label">Time (HH:MM)</label>
-                    <input type="text" class="form-control id="time" asp-for="EditMeetingDTO.Time" placeholder="HH:MM" />
+                    <input type="time" class="form-control id="time" asp-for="EditMeetingDTO.Time" step="60" placeholder="HH:MM" />
                 </div>
 
                 <div class="mb-3">
