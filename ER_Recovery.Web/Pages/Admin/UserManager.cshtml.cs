@@ -11,6 +11,7 @@ namespace ER_Recovery.Web.Pages.Admin
     [Authorize(Roles = UserRoles.Role_Admin)]
     public class UserManagerModel : PageModel
     {
+        //needs a service class
         private readonly IUserRepository _userRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -20,6 +21,8 @@ namespace ER_Recovery.Web.Pages.Admin
 
         [BindProperty]
         public List<string> AllRoles { get; set; } = new();
+
+        public bool isAdmin { get; set; }
 
         public UserManagerModel(IUserRepository userRepo, 
             UserManager<ApplicationUser> userManager,
@@ -56,6 +59,12 @@ namespace ER_Recovery.Web.Pages.Admin
             await _userManager.RemoveFromRolesAsync(user, currentRole);
             await _userManager.AddToRoleAsync(user, newRole);
 
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDeleteUserAsync(string userId)
+        {
+            await _userRepo.DeleteUserAsync(userId);
             return RedirectToPage();
         }
         

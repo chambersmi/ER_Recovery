@@ -31,15 +31,15 @@
                     <td>
                         <form method="post" asp-page-handler="ChangeRole">
                             <input type="hidden" name="userId" value="@user.User.Id" />
-                            <select name="newRole" class="form-control">
-                                @foreach (var role in Model.AllRoles)
-                                {
-                                    <option value="@role" selected="@(role==user.SelectedRole)">
-                                        @role
-                                    </option>
-                                }
-                            </select>
-                            <button type="submit" class="btn btn-primary mt-1">Update</button>
+                            <input type="hidden" name="newRole" value="@(user.Roles.Contains(UserRoles.Role_Admin) ? UserRoles.Role_User : UserRoles.Role_Admin)" />
+                            <button type="submit" class="btn @(user.Roles.Contains(UserRoles.Role_Admin) ? "btn-danger" : "btn-success")">
+                                @(user.Roles.Contains(UserRoles.Role_Admin) ? "Demote to User" : "Promote to Admin")
+                            </button>
+                        </form>
+
+                        <form method="post" asp-page-handler="DeleteUser">
+                            <input type="hidden" name="userId" value="@user.User.Id"/>
+                            <button type="submit" class="btn-danger">Delete</button>
                         </form>
                     </td>
                 </tr>

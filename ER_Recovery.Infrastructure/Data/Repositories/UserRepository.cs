@@ -1,4 +1,5 @@
 ﻿using ER_Recovery.Domains.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -29,6 +30,18 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
         public async Task<List<ApplicationUser>> GetAllUsersAsync()
         {
             return await _userManager.Users.ToListAsync();
+        }
+
+        public async Task<bool> DeleteUserAsync(string userId)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+                return true;
+            }
+
+            return false;
         }
     }
 }
