@@ -42,6 +42,7 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserManagerService, UserManagerService>();
 
             // Anti Forgery issue with Docker
             var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");

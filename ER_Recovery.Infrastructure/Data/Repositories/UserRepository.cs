@@ -32,9 +32,10 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
             return await _userManager.Users.ToListAsync();
         }
 
-        public async Task<bool> DeleteUserAsync(string userId)
+        public async Task<bool> DeleteUserByIdAsync(string userId)
         {
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
             if (user != null)
             {
                 await _userManager.DeleteAsync(user);

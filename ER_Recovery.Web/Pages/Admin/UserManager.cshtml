@@ -12,35 +12,37 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Username</th>
-                <th>Email</th>
                 <th>Role</th>
                 <th>Action</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach (var user in Model.UsersWithRoles)
+            @foreach (var user in Model.UsersWithRolesViewModel)
             {
                 <tr>
-                    <td>@user.User.Id</td>
                     <td>@user.User.UserName</td>
-                    <td>@user.User.Email</td>
                     <td>@string.Join(", ", user.Roles)</td>
                     <td>
-                        <form method="post" asp-page-handler="ChangeRole">
-                            <input type="hidden" name="userId" value="@user.User.Id" />
-                            <input type="hidden" name="newRole" value="@(user.Roles.Contains(UserRoles.Role_Admin) ? UserRoles.Role_User : UserRoles.Role_Admin)" />
-                            <button type="submit" class="btn @(user.Roles.Contains(UserRoles.Role_Admin) ? "btn-danger" : "btn-success")">
-                                @(user.Roles.Contains(UserRoles.Role_Admin) ? "Demote to User" : "Promote to Admin")
-                            </button>
+                        <div class="d-flex">
+                            <form method="post" asp-page-handler="ChangeRole" class="me-2">
+                                <input type="hidden" name="userId" value="@user.User.Id" />
+                                <input type="hidden" name="newRole" value="@(user.Roles.Contains(UserRoles.Role_Admin) ? UserRoles.Role_User : UserRoles.Role_Admin)" />
+                                <button type="submit" style="width:150px;" class="btn btn-sm
+                                    @(user.Roles.Contains(UserRoles.Role_Admin) 
+                                    ? "btn-danger" : "btn-success")">
+                                    @(
+                                    user.Roles.Contains(UserRoles.Role_Admin) 
+                                        ? "Demote to User" : "Promote to Admin")                                                                            
+                                </button>
                         </form>
 
                         <form method="post" asp-page-handler="DeleteUser">
                             <input type="hidden" name="userId" value="@user.User.Id"/>
-                            <button type="submit" class="btn-danger">Delete</button>
+                                <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
                         </form>
+                        </div>
                     </td>
                 </tr>
             }

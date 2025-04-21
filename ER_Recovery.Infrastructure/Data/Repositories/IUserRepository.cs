@@ -10,6 +10,6 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
     public interface IUserRepository
     {
         Task<List<ApplicationUser>> GetAllUsersAsync();
-        Task<bool> DeleteUserAsync(string userId);
+        Task<bool> DeleteUserByIdAsync(string userId);
     }
 }
