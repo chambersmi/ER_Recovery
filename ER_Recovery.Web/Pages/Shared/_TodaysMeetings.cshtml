@@ -1,24 +1,19 @@
-﻿@page
-@using ER_Recovery.Domains.Enums
+﻿@using ER_Recovery.Domains.Enums
+@using ER_Recovery.Domains.Models.DTOs
+@using ER_Recovery.Web.Models
 @using ER_Recovery.Web.Pages.Helpers
-@model ER_Recovery.Web.Pages.AA.MeetingsModel
+@model List<MeetingDTO>
 
 @{
-    Layout = "_LayoutAA";
-
-    ViewData["Title"] = "AA Meetings";
     var currentDay = (MeetingDay)DateTime.Now.DayOfWeek;
-
-    var todaysMeetings = MeetingFilterHelper.GetTodaysMeetings(Model.Meetings, MeetingType.AA);
-    var otherMeetings = MeetingFilterHelper.GetOtherMeetings(Model.Meetings, MeetingType.AA);
-
+    var todaysMeetings = MeetingFilterHelper.GetTodaysMeetings(Model, MeetingType.AA);
 }
 
-<partial name="_Notifications">
-@await Html.PartialAsync("_TodaysMeetings", Model.Meetings);
-    
-
-        <h3 class="mt-5">All Upcoming Meetings:</h3>
+    <!-- NOTE: Create this into a _Partial -->
+    <!-- CHECK IF THERE ARE MEETINGS TODAY -->
+    @if (todaysMeetings.Any())
+    {
+        <h3 class="text-primary">Today's AA Meetings (@currentDay)</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-sm align-middle text-center">
                 <thead class="table-light">
@@ -39,7 +34,8 @@
                 </thead>
 
                 <tbody>
-                    @foreach (var meeting in otherMeetings)
+
+                    @foreach (var meeting in todaysMeetings)
                     {
                         <tr>
                             <td>@meeting.Day</td>
@@ -55,7 +51,7 @@
                             }
                             else
                             {
-                                <td style="color: red;font-weight: 800;">Closed Meeting</td>
+                                <td style="color: red;font-weight: 800">Closed Meeting</td>
                             }
                             @if (User.IsInRole(UserRoles.Role_Admin))
                             {
@@ -63,11 +59,13 @@
                             }
                         </tr>
                     }
+
                 </tbody>
             </table>
         </div>
-
-
-        <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
-        <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
-    </div>
+    }
+    else
+    {
+        <p class="text-danger">No meetings are scheduled for today.</p>
+        <p class="text-secondary">Check Charlotte or Lansing</p>
+    }    

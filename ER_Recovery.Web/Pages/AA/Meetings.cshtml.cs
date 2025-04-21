@@ -30,7 +30,5 @@ namespace ER_Recovery.Web.Pages.AA
             }
             Meetings = await _meetingService.GetScheduledMeetings();
         }
-
-
     }
 }

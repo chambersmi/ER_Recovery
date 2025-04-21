@@ -1,6 +1,16 @@
 ﻿@page
+@using ER_Recovery.Domains.Enums
+@using ER_Recovery.Web.Pages.Helpers
 @model ER_Recovery.Web.Pages.AA.IndexModel
 @{
     Layout = "_LayoutAA";
+    ViewData["Title"] = "Eaton Rapids AA";
+
+    var currentDay = (MeetingDay)DateTime.Now.DayOfWeek;
+
+    var todaysMeetings = MeetingFilterHelper.GetTodaysMeetings(Model.Meetings, MeetingType.AA);
+
 }
 <h1>Alcoholics Anonymous</h1>
+
+@await Html.PartialAsync("_TodaysMeetings", Model.Meetings);

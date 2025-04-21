@@ -17,30 +17,32 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Eaton Rapids Recovery</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-primary border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand text-light" id="navbarColor01" asp-area="" aria-current="page" asp-page="/Index">Eaton Rapids Recovery</a>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark manual-line" asp-area="" aria-current="page" asp-page="/Index">Home</a>
+                            <a class="nav-link text-light active" asp-area="" aria-current="page" asp-page="/AA/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark  manual-line " asp-area="" asp-page="/AA/Meetings">Meetings</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/AA/Meetings">All Meetings</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark manual-line " asp-area="" asp-page="/AA/Resources">Readings & Resources</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/AA/Resources">Readings & Resources</a>
                         </li>
 
                         @if (User.IsInRole(UserRoles.Role_Admin))
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Admin
                                 </a>
                                 <ul class="dropdown-menu">
@@ -82,3 +84,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
