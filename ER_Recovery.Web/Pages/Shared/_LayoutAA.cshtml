@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.Taghelpers
+
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -17,7 +19,7 @@
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">Eaton Rapids Recovery</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -28,20 +30,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark  manual-line " asp-area="" asp-page="/AA/Meetings">Meetings</a>
                         </li>
-                      
+
                         <li class="nav-item">
                             <a class="nav-link text-dark manual-line " asp-area="" asp-page="/AA/Resources">Readings & Resources</a>
                         </li>
 
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-page="/Admin/AddMeeting">Add Meeting</a></li>
-
-                            </ul>
+                        @if (User.IsInRole(UserRoles.Role_Admin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Admin/AddMeeting">Add Meeting</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/UserManager">User Manager</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
 
 
