@@ -19,11 +19,14 @@ namespace ER_Recovery.Web.Pages
 
         public IActionResult OnGet()
         {
-            var getUserCookieChoice = Request.Cookies["ProgramChoice"];
-
-            if(!string.IsNullOrEmpty(getUserCookieChoice))
+            if (User?.Identity?.IsAuthenticated == true)
             {
-                return RedirectToPage($"/{getUserCookieChoice}/Index");
+                var getUserCookieChoice = Request.Cookies["ProgramChoice"];
+
+                if (!string.IsNullOrEmpty(getUserCookieChoice))
+                {
+                    return RedirectToPage($"/{getUserCookieChoice}/Index");
+                }
             }
 
             return Page();
@@ -35,7 +38,7 @@ namespace ER_Recovery.Web.Pages
             {
                 Response.Cookies.Append("ProgramChoice", choice, new CookieOptions
                 {
-                    Expires = DateTimeOffset.UtcNow.AddDays(30)
+                    Expires = DateTimeOffset.UtcNow.AddDays(30),                                        
                 });
 
                 return RedirectToPage($"/{choice}/Index");
