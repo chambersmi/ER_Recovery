@@ -1,3 +1,16 @@
+﻿.page-background::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/AATriangleLogo.webp'); /* your logo path */
+    background-repeat: repeat; /* This makes it tile */
+    /*background-size: 100px;*/ /* Size of each tile */
+    opacity: 0.05; /* Super subtle */
+    z-index: -1; /* Push behind content */
+}
 
 html {
     font-size: 14px;

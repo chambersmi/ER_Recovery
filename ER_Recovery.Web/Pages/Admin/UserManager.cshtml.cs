@@ -61,7 +61,7 @@ namespace ER_Recovery.Web.Pages.Admin
             var currentRole = await _userManager.GetRolesAsync(user);
             await _userManager.RemoveFromRolesAsync(user, currentRole);
             await _userManager.AddToRoleAsync(user, newRole);
-
+            //141789
             return RedirectToPage();
         }
 
