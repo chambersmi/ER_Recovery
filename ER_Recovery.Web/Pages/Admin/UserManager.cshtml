@@ -21,18 +21,18 @@
         </thead>
 
         <tbody>
-            @foreach(var user in Model.UsersWithRoles)
-            {                            
+            @foreach (var user in Model.UsersWithRoles)
+            {
                 <tr>
                     <td>@user.User.Id</td>
                     <td>@user.User.UserName</td>
                     <td>@user.User.Email</td>
-                    <td>@string.Join(", ", user.Roles)</td>   
+                    <td>@string.Join(", ", user.Roles)</td>
                     <td>
                         <form method="post" asp-page-handler="ChangeRole">
-                            <input type="hidden" name="userId" value="@user.User.Id"/>
+                            <input type="hidden" name="userId" value="@user.User.Id" />
                             <select name="newRole" class="form-control">
-                                @foreach(var role in Model.AllRoles)
+                                @foreach (var role in Model.AllRoles)
                                 {
                                     <option value="@role" selected="@(role==user.SelectedRole)">
                                         @role
@@ -40,9 +40,9 @@
                                 }
                             </select>
                             <button type="submit" class="btn btn-primary mt-1">Update</button>
-                    </form>
-                </td>
-            </tr>
+                        </form>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
