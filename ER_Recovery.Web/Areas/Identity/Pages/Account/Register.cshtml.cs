@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -110,17 +111,29 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
-            [DataType(DataType.Text)]
-            [Display(Name = "Username")]
-            public string Name { get; set; } = "Anonymous";
+            //MCNOTE: Have Anonymous123 or Anonymous430
+            [Display(Name = "Nickname")]
+            public string Nickname { get; set; } = "Anonymous";
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "City")]
+            public string City { get; set; }
 
             [DataType(DataType.Date)]
-            [Display(Name = "Birthdate")]
+            [Display(Name = "Birthday")]
             public DateTime? Birthdate { get; set; }
 
             [DataType(DataType.Date)]
             [Display(Name = "Sobriety Date")]
             public DateTime? SobrietyDate { get; set; }
+
         }
 
 
@@ -159,9 +172,10 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);                
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                user.Name = Input.Name;
-
-                //MCNOTE: Check why dates are YYYY-MM-DD
+                user.Nickname = Input.Nickname;
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.City = Input.City;
                 user.Birthdate = Input.Birthdate;
                 user.SobrietyDate = Input.SobrietyDate;
 
