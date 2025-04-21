@@ -5,6 +5,28 @@
     Layout = null;
 }
 
+
+<style>
+    .cookie-banner {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 1050;
+        background-color: #f8f9fa; /* light background */
+        padding: 1rem;
+        border-top: 1px solid #ccc;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: none;
+    }
+
+        .cookie-banner.show {
+            opacity: 1;
+            display: block;
+        }
+</style>
+
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
     <form method="post">
         <button type="submit" name="choice" value="AA" class="btn btn-primary">Alcoholics Anonymous</button>
@@ -12,4 +34,25 @@
     </form>
 </div>
 
+<div id="cookie-banner" class="cookie-banner text-center shadow">
+    <span>This site uses cookies to enhance your experience. By continuing, you agree to our use of cookies.</span>
+    <button id="cookie-accept-btn" class="btn btn-sm btn-primary ms-3">Accept</button>
+</div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const banner = document.getElementById("cookie-banner");
+        const accepted = localStorage.getItem("cookieConsent");
+
+        if (!accepted) {
+            banner.classList.remove("d-none");
+            setTimeout(() => banner.classList.add("show"), 100);
+        }
+
+        document.getElementById("cookie-accept-btn").addEventListener("click", function () {
+            localStorage.setItem("cookieConsent", "true");
+            banner.classList.remove("show");
+            setTimeout(() => banner.classList.add("d-none"), 500);
+        });
+    });
+</script>
