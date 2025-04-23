@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250421171734_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250421230051_ChangedNicknameToUserHandle")]
+    partial class ChangedNicknameToUserHandle
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -278,11 +278,11 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nickname")
-                        .IsRequired()
+                    b.Property<DateTime?>("SobrietyDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("SobrietyDate")
+                    b.Property<string>("UserHandle")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");

@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Models;
 using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication;
@@ -35,13 +36,16 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IHandleGeneratorService _handleGeneratorService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, RoleManager<IdentityRole> roleManager)
+            IEmailSender emailSender,
+            IHandleGeneratorService handleGeneratorService,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,7 +54,10 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _handleGeneratorService = handleGeneratorService;
         }
+
+
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -112,8 +119,10 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
             //MCNOTE: Have Anonymous123 or Anonymous430
-            [Display(Name = "Nickname")]
-            public string Nickname { get; set; } = "Anonymous";
+            [Display(Name = "UserHandle")]
+            public string UserHandle { get; set; } = string.Empty;
+
+            public string SuggestedHandle { get; set; } = string.Empty;
 
             [Required]
             [Display(Name = "First Name")]
@@ -146,7 +155,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_Admin)).GetAwaiter().GetResult();
 
             }
-
+            
             // Populate RoleList
             Input = new()
             {
@@ -157,12 +166,15 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 })
             };
 
+
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            var createAnonymousHandle =  await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync();
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -172,12 +184,20 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);                
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                user.Nickname = Input.Nickname;
+                user.UserHandle = Input.UserHandle;
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.City = Input.City;
                 user.Birthdate = Input.Birthdate;
                 user.SobrietyDate = Input.SobrietyDate;
+                if (user.UserHandle == null)
+                {
+                    user.UserHandle = createAnonymousHandle;
+                }
+                else
+                {
+                    user.UserHandle = Input.UserHandle;
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

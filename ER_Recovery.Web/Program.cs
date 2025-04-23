@@ -43,6 +43,7 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IEmailSender, EmailSender>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserManagerService, UserManagerService>();
+            builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
 
             // Anti Forgery issue with Docker
             var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");
@@ -58,7 +59,13 @@ namespace ER_Recovery.Web
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                DbInitializer.InitDb(app);
             }
+
+
+            // Static files
+            app.UseStaticFiles();
+
 
             app.UseHttpsRedirection();
 
@@ -67,14 +74,9 @@ namespace ER_Recovery.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Static files
-            app.UseStaticFiles();
-
             app.MapStaticAssets();
             app.MapRazorPages()
                .WithStaticAssets();
-
-            DbInitializer.InitDb(app);
 
             app.Run();
         }

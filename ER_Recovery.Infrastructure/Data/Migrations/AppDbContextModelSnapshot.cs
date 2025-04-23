@@ -275,11 +275,11 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Nickname")
-                        .IsRequired()
+                    b.Property<DateTime?>("SobrietyDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("SobrietyDate")
+                    b.Property<string>("UserHandle")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");

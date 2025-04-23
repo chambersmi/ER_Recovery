@@ -1,4 +1,5 @@
 ﻿@page
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -7,33 +8,33 @@
 <style>
 
     .form-wrapper {
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
     }
 
     .register-card {
-        background-color: #fff;
-        padding: 2rem;
-        border-radius: 1rem;
-        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
-        width: 100%;
-        max-width: 500px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 500px;
     }
 
     .form-title {
-        font-size: 1.75rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        text-align: center;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
     }
 
     .link-info {
-        font-size: 0.9rem;
-        text-align: center;
-        margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1rem;
     }
 </style>
 
@@ -48,58 +49,62 @@
 
                 <!-- Email Field -->
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" />
+                    <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" required/>
                     <label asp-for="Input.Email">Email</label>
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
 
                 <!-- Password Field -->
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" required/>
                     <label asp-for="Input.Password">Password</label>
                     <span asp-validation-for="Input.Password" class="text-danger"></span>
                 </div>
 
                 <!-- Confirm Password Field -->
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                    <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" required/>
                     <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                     <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                 </div>
 
-                <!-- Info for Admin Roles -->
-                <p class="link-info">Admin roles allow for more functions. <i>Development only.</i></p>
+                @if (Env.IsDevelopment())
+                {
+                    <!-- Info for Admin Roles -->
+                    <p class="link-info">Admin roles allow for more functions. <i>Development only.</i></p>
 
-                <!-- Role Selector -->
-                <div class="form-floating mb-3">
-                    <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
-                        <option disabled selected>-Select Role</option>
-                    </select>
-                </div>
+                    <!-- Role Selector -->                
+                    <div class="form-floating mb-3">
+                        <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
+                            <option disabled selected>-Select Role</option>
+                        </select>
+                    </div>
+                }
 
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" (default)" />
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="First Name" (default)" required />
                     <label asp-for="Input.FirstName"></label>
                     <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" />
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Last Name" required />
                     <label asp-for="Input.LastName">Last Name</label>
                     <span asp-validation-for="Input.LastName" class="text-danger"></span>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.City" class="form-control" placeholder="City" />
+                    <input asp-for="Input.City" class="form-control" placeholder="City" required/>
                     <label asp-for="Input.City"></label>
                     <span asp-validation-for="Input.City" class="text-danger"></span>
                 </div>
 
                 <!-- Username Field -->
+                <p class="link-info">Leave blank to use an Anonymous handle.</p>
                 <div class="form-floating mb-3">
-                    <input asp-for="Input.Nickname" class="form-control" placeholder="Anonymous (default)" />
-                    <label asp-for="Input.Nickname"></label>
-                    <span asp-validation-for="Input.Nickname" class="text-danger"></span>
+                    <input asp-for="Input.UserHandle" class="form-control" placeholder="@Model.Input.SuggestedHandle" />
+                    <label asp-for="Input.UserHandle"></label>
+                    <span asp-validation-for="Input.UserHandle" class="text-danger"></span>
                 </div>
 
                 <!-- Birthdate Field -->

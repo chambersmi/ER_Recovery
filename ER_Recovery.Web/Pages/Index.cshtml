@@ -26,12 +26,53 @@
         opacity: 1;
         display: block;
     }
+
+    .logo-container {
+        text-align: center;
+        margin: 0 20px;
+    }
+
+    .logo-container img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    form .logo-container {
+        margin: 10px;
+    }
+
+    .logo-container div {
+        margin-top: 10px;
+        font-size: 1.2rem;
+    }
 </style>
 
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <form method="post">
-        <button type="submit" name="choice" value="AA" class="btn btn-primary">Alcoholics Anonymous</button>
-        <button type="submit" name="choice" value="NA" class="btn btn-primary">Narcotics Anonymous</button>
+    <form method="post" class="text-center">
+        <div class="logo-container">
+            <button type="submit" name="choice" value="AA" class="btn btn-primary" style="border: none; background: transparent;cursor: pointer;">
+                <img src="./images/AATriangleLogo.webp" alt="Alcoholics Anonymous" height="200" width="350" />
+            </button>
+            <div>Alcoholics Anonymous</div>
+        </div>
+        <div class="logo-container">
+            <button type="submit" name="choice" value="NA" class="btn btn-primary" style="border: none; background: transparent;cursor: pointer;">
+                <img src="./images/NA_Logo.png" alt="Narcotics Anonymous" height="180" width="200" />
+            </button>
+            <div>Narcotics Anonymous</div>
+        </div>
     </form>
 </div>
 
