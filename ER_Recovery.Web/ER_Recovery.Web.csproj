@@ -5,10 +5,9 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>72dd68d6-e645-41f4-aa9a-2f2181386e23</UserSecretsId>
-		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 		<DebugType>portable</DebugType>
-		<DockerfileFile>ER_Recovery.Web\Dockerfile</DockerfileFile>
 		<DebugSymbols>true</DebugSymbols>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
 
 	<ItemGroup>
