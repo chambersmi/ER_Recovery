@@ -16,6 +16,13 @@ namespace ER_Recovery.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // Set Env or Production environments
+            //builder.Configuration
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", optional: false)
+            //    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+            //    .AddEnvironmentVariables();
+
             // Add services to the container.
             builder.Services.AddRazorPages();
 
@@ -45,11 +52,10 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IUserManagerService, UserManagerService>();
             builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
 
-            // Anti Forgery issue with Docker
-            var keyPath = Path.Combine(Directory.GetCurrentDirectory(), "keys");
+            // Anti Forgery issue with Docker            
             builder.Services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo(keyPath))
-                .SetApplicationName("ER_Recovery.Web");
+                .PersistKeysToFileSystem(new DirectoryInfo("/app/keys"))
+                .SetApplicationName("EatonRapidsRecoveryApp");
 
             var app = builder.Build();
 
