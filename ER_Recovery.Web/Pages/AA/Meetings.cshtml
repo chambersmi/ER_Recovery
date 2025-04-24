@@ -16,9 +16,10 @@
 
 <partial name="_Notifications">
 @await Html.PartialAsync("_TodaysMeetings", Model.Meetings);
-    
 
-        <h3 class="mt-5">All Upcoming Meetings:</h3>
+
+    <!-- Desktop Layout -->
+    <div class="desktop-meetings d-none d-md-block">
         <div class="table-responsive">
             <table class="table table-bordered table-sm align-middle text-center">
                 <thead class="table-light">
@@ -49,25 +50,62 @@
                             <td>@meeting.Address</td>
                             <td>@meeting.City</td>
                             <td>@meeting.State</td>
-                            @if (meeting.OpenMeeting == true)
-                            {
-                                <td style="color: green;font-weight: 800;">Open Meeting</td>
-                            }
-                            else
-                            {
-                                <td style="color: red;font-weight: 800;">Closed Meeting</td>
-                            }
+                            <td style="color: @(meeting.OpenMeeting == true ? "green" : "red");font-weight:800;">
+                                @(meeting.OpenMeeting == true ? "Open Meeting" : "Closed Meeting")
+                            </td>
                             @if (User.IsInRole(UserRoles.Role_Admin))
                             {
-                                <td><button><a asp-page="/Admin/UpdateDeleteMeeting" role="button" asp-route-id="@meeting.Id" style="color:red;text-decoration:none;font-weight:800;justify-content:center;">Edit</a></button></td>
+                                <td>
+                                    <button>
+                                        <a asp-page="/Admin/UpdateDeleteMeeting"
+                                           role="button"
+                                           asp-route-id="@meeting.Id"
+                                           style="color:red;text-decoration:none;font-weight:800;justify-content:center;">
+                                            Edit
+                                        </a>
+                                    </button>
+                                </td>
                             }
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
-
-        <p class="text-center"><span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.</p>
-        <p class="text-center"><span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.</p>
     </div>
+
+    <!-- Mobile Layout -->
+    <div class="mobile-meetings d-block d-md-none">
+        @foreach (var meeting in otherMeetings)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p><strong>Day:</strong> @meeting.Day</p>
+                    <p><strong>Time:</strong> @DateTime.MinValue.Add(meeting.Time).ToString("hh:mm tt")</p>
+                    <p><strong>Location:</strong> @meeting.Location</p>
+                    <p><strong>Name:</strong> @meeting.Description</p>
+                    <p><strong>Address:</strong> @meeting.Address, @meeting.City, @meeting.State</p>
+                    <p>
+                        <strong>Type:</strong>
+                        <span style="color: @(meeting.OpenMeeting == true ? "green" : "red"); font-weight: 800;">
+                            @(meeting.OpenMeeting == true ? "Open Meeting" : "Closed Meeting")
+                        </span>
+                    </p>
+                    @if (User.IsInRole(UserRoles.Role_Admin))
+                    {
+                        <a asp-page="/Admin/UpdateDeleteMeeting"
+                           asp-route-id="@meeting.Id"
+                           class="btn btn-sm btn-outline-danger fw-bold">
+                            Edit
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+
+    <p class="text-center">
+        <span style="color: red;">Closed meetings</span> are for those who suffer from the disease of alcoholism or addiction.
+    </p>
+    <p class="text-center">
+        <span style="color: green;">Open meetings</span> allow those not suffering from alcoholism or addiction to attend.
+    </p>
