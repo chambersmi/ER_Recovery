@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ER_Recovery.Application.Services
 {
-    public interface IUserManagerService
+    public interface ISobrietyDateService
     {
-        Task<List<UserDTO>> GetAllUsersWithRoles();
-        Task<bool> DeleteUserByIdAsync(string id);
-        Task<string> GetUserHandleAsync(string userId);
+        Task<List<UserDTO>> GetSobrietyDateAsync();
     }
 }

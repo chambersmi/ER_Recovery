@@ -11,5 +11,6 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
     {
         Task<List<ApplicationUser>> GetAllUsersAsync();
         Task<bool> DeleteUserByIdAsync(string userId);
+        Task<ApplicationUser> GetUserByIdAsync(string userId);
     }
 }

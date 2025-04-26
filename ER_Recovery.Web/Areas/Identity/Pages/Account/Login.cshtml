@@ -6,26 +6,20 @@
 }
 
 <style>
-    .container {
-        background-color: ivory;
-    }
-
     .form-wrapper {
         min-height: 100vh;
         display: flex;
         justify-content: center;
         align-items: center;
-        background: ivory;
+        background-color: var(--bs-body-bg);
         padding: 2rem;
-        border: 1px solid black;
     }
 
-
     .register-card {
-        background-color: #fff;
+        background-color: var(--bs-light);
         padding: 2rem;
         border-radius: 1rem;
-        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+        box-shadow: 0 0.5rem 1rem rgbha(0,0,0,0.1);
         width: 100%;
         max-width: 500px;
     }
@@ -35,6 +29,22 @@
         font-weight: 600;
         margin-bottom: 1rem;
         text-align: center;
+        color: var(--bs-primary);
+    }
+
+    p {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    p a {
+        color: black;
+        text-decoration: none;
+    }
+
+    p a:visited {
+        color: black;
+        text-decoration: none;
     }
 
 </style>

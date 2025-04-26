@@ -1,36 +1,70 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.Taghelpers
+@{
+    ViewData["BodyClass"] = "page-background";
+}
+
+
+<!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eaton Rapids Recovery</title>
     <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ER_Recovery.Web.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="@ViewData["BodyClass"]">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Eaton Rapids Recovery</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand text-light" id="navbarColor01" asp-area="" aria-current="page" asp-page="/Index">Eaton Rapids Recovery</a>
+                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" id="navbarColor01">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-light active" asp-area="" aria-current="page" asp-page="/AA/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AA/Meetings">Meetings</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/AA/Meetings">All Meetings</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/AA/DailyReflections">Daily Reflections</a>
+                            <a class="nav-link text-light" asp-area="" asp-page="/AA/Resources">Readings & Resources</a>
                         </li>
+
+                        @if (User.IsInRole(UserRoles.Role_Admin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/Admin/AddMeeting">Add Meeting</a></li>
+                                    <li><a class="dropdown-item" asp-page="/Admin/UserManager">User Manager</a></li>
+                                </ul>
+                            </li>
+                        }
                     </ul>
+
+
+                    <div class="d-sm-none w-100 mt-2">
+                    <partial name="_LoginPartial" />
+                    </div>
+
+                    <div class="d-none d-sm-block">
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
@@ -43,7 +77,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - ER_Recovery.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2025 - Chambers Media
         </div>
     </footer>
 
@@ -54,3 +88,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

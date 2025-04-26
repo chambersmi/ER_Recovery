@@ -58,6 +58,17 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string City { get; set; }
+            public string UserHandle { get; set; }
+
+            [DataType(DataType.Date)]
+            public DateTime? Birthdate { get; set; }
+
+            [DataType(DataType.Date)]
+            public DateTime? SobrietyDate { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -65,11 +76,19 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            
+
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                UserHandle = user.UserHandle,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                City = user.City,
+                Birthdate = user.Birthdate,
+                SobrietyDate = user.SobrietyDate                
             };
         }
 
@@ -109,6 +128,16 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            // Set user fields
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.UserHandle = Input.UserHandle;
+            user.City = Input.City;
+            user.Birthdate = Input.Birthdate;
+            user.SobrietyDate = Input.SobrietyDate;
+
+            var updateResult = await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
