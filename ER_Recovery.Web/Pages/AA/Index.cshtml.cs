@@ -9,15 +9,13 @@ namespace ER_Recovery.Web.Pages.AA
     {
         private readonly IMeetingsService _meetingService;
         // Could be added to UserService
-        private readonly ISobrietyDateService _sobrietyDateService;
-
         private readonly ILogger<IndexModel> _logger;
         public List<MeetingDTO> Meetings { get; set; } = new List<MeetingDTO>();
-        public List<UserDTO> SobrietyDateUsers { get; set; } = new List<UserDTO>();
+       
 
-        public IndexModel(ISobrietyDateService sobrietyDateService, IMeetingsService meetingsService, ILogger<IndexModel> logger)
+        public IndexModel(IMeetingsService meetingsService, ILogger<IndexModel> logger)
         {
-            _sobrietyDateService = sobrietyDateService;
+
             _meetingService = meetingsService;
             _logger = logger;
         }
@@ -37,8 +35,6 @@ namespace ER_Recovery.Web.Pages.AA
                     });
                 }
             }
-
-            SobrietyDateUsers = await _sobrietyDateService.GetSobrietyDateAsync();
 
             return Page();
         }

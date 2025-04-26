@@ -6,7 +6,7 @@
 @{
     Layout = "_Layout";
 
-    ViewData["Title"] = "AA Meetings";
+    ViewData["Title"] = "Eaton Rapids AA Meetings";
     var currentDay = (MeetingDay)DateTime.Now.DayOfWeek;
 
     var todaysMeetings = MeetingFilterHelper.GetTodaysMeetings(Model.Meetings, MeetingType.AA);
@@ -14,9 +14,9 @@
 
 }
 
-<partial name="_Notifications">
-@await Html.PartialAsync("_TodaysMeetings", Model.Meetings);
+<partial name="_Notifications"/>
 
+@await Html.PartialAsync("_TodaysMeetings", todaysMeetings);
 
     <!-- Desktop Layout -->
     <div class="desktop-meetings d-none d-md-block">
@@ -50,15 +50,14 @@
                             <td>@meeting.Address</td>
                             <td>@meeting.City</td>
                             <td>@meeting.State</td>
-                            <td style="color: @(meeting.OpenMeeting == true ? "green" : "red");font-weight:800;">
-                                @(meeting.OpenMeeting == true ? "Open Meeting" : "Closed Meeting")
-                            </td>
+                        <td class="fw-bold @(meeting.OpenMeeting ? "text-success" : "text-danger")">
+                            @(meeting.OpenMeeting ? "Open Meeting" : "Closed Meeting")
+                        </td>                            
                             @if (User.IsInRole(UserRoles.Role_Admin))
                             {
                                 <td>
                                     <button>
                                         <a asp-page="/Admin/UpdateDeleteMeeting"
-                                           role="button"
                                            asp-route-id="@meeting.Id"
                                            style="color:red;text-decoration:none;font-weight:800;justify-content:center;">
                                             Edit
