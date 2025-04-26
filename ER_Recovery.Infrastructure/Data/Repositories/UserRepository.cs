@@ -44,5 +44,17 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
 
             return false;
         }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string userId)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if(user == null)
+            {
+                throw new KeyNotFoundException($"User with ID {userId} was not found.");
+            }
+
+            return user;
+        }
     }
 }

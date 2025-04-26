@@ -11,5 +11,6 @@ namespace ER_Recovery.Application.Services
     {
         Task<List<UserDTO>> GetAllUsersWithRoles();
         Task<bool> DeleteUserByIdAsync(string id);
+        Task<string> GetUserHandleAsync(string userId);
     }
 }

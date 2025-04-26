@@ -1,13 +1,30 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using ER_Recovery.Application.Services
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@inject IUserManagerService UserManagerService;
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var userHandle = string.Empty;
+
+    if (user != null) {
+        userHandle = await UserManagerService.GetUserHandleAsync(user.Id);
+
+        if(string.IsNullOrWhiteSpace(userHandle))
+        {
+            userHandle = await UserManager.GetEmailAsync(user);
+        }
+    }
+
+    ViewData["UserHandle"] = userHandle;
+}
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Logged in as @UserManager.GetUserName(User)</a>
+        <a id="manage" class="nav-link text-light" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Logged in as @ViewData["UserHandle"]</a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">

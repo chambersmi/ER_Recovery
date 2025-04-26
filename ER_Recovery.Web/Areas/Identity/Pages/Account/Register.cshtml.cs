@@ -114,12 +114,10 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
             public string Role { get; set; }
 
-            // Move this later
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
-            //MCNOTE: Have Anonymous123 or Anonymous430
-            [Display(Name = "UserHandle")]
+            [Display(Name = "Nickname/Handle")]
             public string UserHandle { get; set; } = string.Empty;
 
             public string SuggestedHandle { get; set; } = string.Empty;
@@ -155,7 +153,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_Admin)).GetAwaiter().GetResult();
 
             }
-            
+
             // Populate RoleList
             Input = new()
             {
@@ -163,7 +161,8 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 {
                     Text = i,
                     Value = i
-                })
+                }),
+                SuggestedHandle = await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync()
             };
 
 
@@ -173,7 +172,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            var createAnonymousHandle =  await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync();
+            //var createAnonymousHandle =  await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync();
 
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -184,20 +183,30 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);                
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
-                user.UserHandle = Input.UserHandle;
+                if(string.IsNullOrWhiteSpace(Input.UserHandle))
+                {
+                    user.UserHandle = Input.SuggestedHandle;
+                } 
+                else
+                {
+                    user.UserHandle = Input.UserHandle;
+                }
+                
                 user.FirstName = Input.FirstName;
                 user.LastName = Input.LastName;
                 user.City = Input.City;
                 user.Birthdate = Input.Birthdate;
                 user.SobrietyDate = Input.SobrietyDate;
-                if (user.UserHandle == null)
-                {
-                    user.UserHandle = createAnonymousHandle;
-                }
-                else
-                {
-                    user.UserHandle = Input.UserHandle;
-                }
+                user.UserHandle = Input.UserHandle;
+
+                //if (user.UserHandle == null)
+                //{
+                //    user.UserHandle = createAnonymousHandle;
+                //}
+                //else
+                //{
+                //    user.UserHandle = Input.UserHandle;
+                //}
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

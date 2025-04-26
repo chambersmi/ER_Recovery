@@ -19,17 +19,18 @@ namespace ER_Recovery.Web.Pages
 
         public IActionResult OnGet()
         {
-            if (User?.Identity?.IsAuthenticated == true)
-            {
-                var getUserCookieChoice = Request.Cookies["ProgramChoice"];
+            return RedirectToPage("/AA/Index");
+            //if (User?.Identity?.IsAuthenticated == true)
+            //{
+            //    var getUserCookieChoice = Request.Cookies["ProgramChoice"];
 
-                if (!string.IsNullOrEmpty(getUserCookieChoice))
-                {
-                    return RedirectToPage($"/{getUserCookieChoice}/Index");
-                }
-            }
+            //    if (!string.IsNullOrEmpty(getUserCookieChoice))
+            //    {
+            //        return RedirectToPage($"/{getUserCookieChoice}/Index");
+            //    }
+            //}
 
-            return Page();
+            //return Page();
         }
 
         public IActionResult OnPost(string choice)

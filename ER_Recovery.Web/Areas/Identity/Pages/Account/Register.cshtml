@@ -3,32 +3,35 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "_Layout";
 }
 
 <style>
 
     .form-wrapper {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--bs-body-bg);
+        padding: 2rem;
     }
 
     .register-card {
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 500px;
+        background-color: var(--bs-light);
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1rem rgbha(0,0,0,0.1);
+        width: 100%;
+        max-width: 500px;
     }
 
     .form-title {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    text-align: center;
+        font-size: 1.75rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+        color: var(--bs-primary);
     }
 
     .link-info {
@@ -100,9 +103,9 @@
                 </div>
 
                 <!-- Username Field -->
-                <p class="link-info">Leave blank to use an Anonymous handle.</p>
-                <div class="form-floating mb-3">
-                    <input asp-for="Input.UserHandle" class="form-control" placeholder="@Model.Input.SuggestedHandle" />
+                <div class="form-floating mb-3 d-flex align-items-center">
+                    <input asp-for="Input.UserHandle" class="form-control" />
+                    <span class="small mx-3">Leave blank to use nickname: @Model.Input.SuggestedHandle</span>
                     <label asp-for="Input.UserHandle"></label>
                     <span asp-validation-for="Input.UserHandle" class="text-danger"></span>
                 </div>

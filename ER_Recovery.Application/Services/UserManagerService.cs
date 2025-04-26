@@ -58,5 +58,17 @@ namespace ER_Recovery.Application.Services
 
             return false;
         }
+
+        public async Task<ApplicationUser> GetUserByIdAsync(string id)
+        {
+            return await _userRepository.GetUserByIdAsync(id);
+        }
+
+        public async Task<string> GetUserHandleAsync(string userId)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+
+            return user.UserHandle;
+        }
     }
 }
