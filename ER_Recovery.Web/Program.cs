@@ -51,6 +51,7 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserManagerService, UserManagerService>();
             builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
+            builder.Services.AddScoped<ISobrietyDateService, SobrietyDateService>();
 
             // Anti Forgery issue with Docker            
             builder.Services.AddDataProtection()

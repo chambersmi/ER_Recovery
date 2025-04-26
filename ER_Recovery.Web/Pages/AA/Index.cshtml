@@ -10,7 +10,53 @@
 
     var todaysMeetings = MeetingFilterHelper.GetTodaysMeetings(Model.Meetings, MeetingType.AA);
 
+
 }
+
+<style>
+    .sobriety-date {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+</style>
+
 <h1 class="mb-5">Alcoholics Anonymous</h1>
 
-@await Html.PartialAsync("_TodaysMeetings", Model.Meetings);
+<h3>Today's Sobriety Date!</h3>
+<div class="sobriety-date">
+
+    @if (Model.SobrietyDateUsers.Any())
+    {
+        <table class="table-bordered table fs-6">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Nickname/Handle</th>
+                    <th>Sobriety Date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var user in Model.SobrietyDateUsers)
+                {
+
+
+                <tr>
+                    <td>@user.User.FirstName</td>
+                    <td>@user.User.UserHandle</td>
+                    <td>@user.User.SobrietyDate?.ToString("MM-dd-yyyy")</td>
+                </tr>
+                }
+            </tbody>
+
+        </table>
+    }
+    else
+    {
+        <h6>There are no recognized sobriety dates today.</h6>
+    }
+</div>
+
+
+@await Html.PartialAsync("_TodaysMeetings", Model.Meetings)
