@@ -9,8 +9,6 @@ namespace ER_Recovery.Web.Services
     {
         private readonly HttpClient _httpClient;
 
-        private const string Url = "https://www.aa.org/daily-reflections";
-
         public string Title { get; set; } = "";
         public string Body { get; set; } = "";
 
