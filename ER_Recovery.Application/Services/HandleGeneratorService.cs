@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Domains.Models;
+﻿using ER_Recovery.Application.Services.Interfaces;
+using ER_Recovery.Domains.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;

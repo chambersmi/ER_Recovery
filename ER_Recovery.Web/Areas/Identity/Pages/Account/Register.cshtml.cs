@@ -11,7 +11,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using ER_Recovery.Application.Services;
+using ER_Recovery.Application.Services.Interfaces;
 using ER_Recovery.Domains.Models;
 using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Authentication;

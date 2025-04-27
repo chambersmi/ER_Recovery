@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Web.Models;
+﻿using ER_Recovery.Application.Services.Interfaces;
+using ER_Recovery.Web.Models;
 using HtmlAgilityPack;
 using System;
 using System.Net;

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Identity;
 using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.DataProtection;
+using ER_Recovery.Application.Services.Interfaces;
+using ER_Recovery.Infrastructure.Data.Repositories.Interfaces;
 
 namespace ER_Recovery.Web
 {

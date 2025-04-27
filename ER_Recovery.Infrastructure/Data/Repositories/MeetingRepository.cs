@@ -1,4 +1,5 @@
 ﻿using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Infrastructure.Data.Repositories.Interfaces;
 using ER_Recovery.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
