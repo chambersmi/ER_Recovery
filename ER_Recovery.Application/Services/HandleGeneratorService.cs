@@ -1,21 +1,20 @@
-﻿using ER_Recovery.Domains.Models;
+﻿using ER_Recovery.Application.Interfaces;
+using ER_Recovery.Domains.Entities;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using ER_Recovery.Infrastructure.Data.Repositories;
 
 namespace ER_Recovery.Application.Services
 {
     public class HandleGeneratorService : IHandleGeneratorService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public HandleGeneratorService(UserManager<ApplicationUser> userManager)
+        public HandleGeneratorService(UserManager<ApplicationUser> userManager, IUserRepository userRepository)
         {
             _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         public async Task<string> GenerateUniqueAnonymousHandleAsync()
@@ -28,9 +27,9 @@ namespace ER_Recovery.Application.Services
                 var randomDigits = random.Next(0, 1000).ToString("D3");
                 var newHandle = $"{baseHandle}{randomDigits}";
 
-                var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserHandle == newHandle);
+                var exists = await _userRepository.HandleExistsAsync(newHandle);
 
-                if(user==null)
+                if(!exists)
                 {
                     return newHandle;
                 }

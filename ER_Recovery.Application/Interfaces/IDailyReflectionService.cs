@@ -1,6 +1,6 @@
-﻿using ER_Recovery.Web.Models;
+﻿using ER_Recovery.Domains.Entities;
 
-namespace ER_Recovery.Web.Services
+namespace ER_Recovery.Application.Interfaces
 {
     public interface IDailyReflectionService
     {

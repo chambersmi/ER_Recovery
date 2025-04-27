@@ -1,9 +1,9 @@
-﻿using ER_Recovery.Web.Models;
+﻿using ER_Recovery.Application.Interfaces;
+using ER_Recovery.Domains.Entities;
 using HtmlAgilityPack;
-using System;
 using System.Net;
 
-namespace ER_Recovery.Web.Services
+namespace ER_Recovery.Application.Services
 {
     public class DailyReflectionService : IDailyReflectionService
     {

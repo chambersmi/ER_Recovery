@@ -1,4 +1,4 @@
-using ER_Recovery.Web.Services;
+using ER_Recovery.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

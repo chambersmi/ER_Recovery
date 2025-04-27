@@ -1,6 +1,5 @@
-using ER_Recovery.Application.Services;
-using ER_Recovery.Domains.Models;
-using ER_Recovery.Domains.Models.DTOs;
+using ER_Recovery.Application.Interfaces;
+using ER_Recovery.Domains.Entities;
 using ER_Recovery.Domains.Models.ViewModels;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Infrastructure.Utility;
@@ -41,11 +40,20 @@ namespace ER_Recovery.Web.Pages.Admin
         {
             //var users = await _userRepo.GetAllUsersAsync();
             var userDTO = await _userManagerService.GetAllUsersWithRoles();
+            if(userDTO == null || !userDTO.Any())
+            {
+                // log warning
+            }
             AllRoles = _roleManager.Roles.Select(r => r.Name!).ToList();
 
             UsersWithRolesViewModel = userDTO.Select(dto => new UserWithRole
             {
-                User = dto.User,
+                UserId = dto.UserId,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                City = dto.City,
+                Birthdate = dto.Birthdate,
+                SobrietyDate = dto.SobrietyDate,
                 Roles = dto.Roles,
                 SelectedRole = dto.Roles.FirstOrDefault() ?? ""
             }).ToList();

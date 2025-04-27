@@ -1,6 +1,7 @@
 ﻿using ER_Recovery.Domains.Enums;
 
-namespace ER_Recovery.Web.Models
+namespace ER_Recovery.Domains.Entities
+
 {
     public class Meeting
     {

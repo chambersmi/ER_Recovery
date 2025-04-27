@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ER_Recovery.Application\ER_Recovery.Application.csproj" />
     <ProjectReference Include="..\ER_Recovery.Domains\ER_Recovery.Domains.csproj" />
   </ItemGroup>
 

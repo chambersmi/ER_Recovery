@@ -1,6 +1,6 @@
-﻿using ER_Recovery.Domains.Enums;
+﻿using ER_Recovery.Domains.Entities;
+using ER_Recovery.Domains.Enums;
 using ER_Recovery.Infrastructure.Data;
-using ER_Recovery.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace ER_Recovery.Web

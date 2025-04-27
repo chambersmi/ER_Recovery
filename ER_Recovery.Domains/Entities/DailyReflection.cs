@@ -1,4 +1,4 @@
-﻿namespace ER_Recovery.Web.Models
+﻿namespace ER_Recovery.Domains.Entities
 {
     public class DailyReflection
     {

@@ -1,12 +1,11 @@
+using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Application.Services;
-using ER_Recovery.Infrastructure.Data;
+using ER_Recovery.Domains.Entities;
+using ER_Recovery.Infrastructure;
 using ER_Recovery.Infrastructure.Data.Repositories;
-using ER_Recovery.Web.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using ER_Recovery.Infrastructure.Utility;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace ER_Recovery.Web
 {
@@ -28,30 +27,8 @@ namespace ER_Recovery.Web
 
             // HttpClient
             builder.Services.AddHttpClient<IDailyReflectionService, DailyReflectionService>();
-            
-            // DbContext
-            builder.Services.AddDbContext<AppDbContext>(options =>
-            {
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
 
-            // Remove if we do not want email confirmation
-            //builder.Services.AddDefaultIdentity<IdentityUser>(
-            //    options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<AppDbContext>();
-
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>()
-                .AddDefaultTokenProviders();
-
-            // Services
-            builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
-            builder.Services.AddScoped<IMeetingsService, MeetingsService>();
-            builder.Services.AddScoped<IEmailSender, EmailSender>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
-            builder.Services.AddScoped<IUserManagerService, UserManagerService>();
-            builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
-            builder.Services.AddScoped<ISobrietyDateService, SobrietyDateService>();
+            builder.Services.AddInfrastructure(builder.Configuration);
 
             // Anti Forgery issue with Docker            
             builder.Services.AddDataProtection()
@@ -66,9 +43,9 @@ namespace ER_Recovery.Web
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-                DbInitializer.InitDb(app);
-            }
 
+            }
+            DbInitializer.InitDb(app);
 
             // Static files
             app.UseStaticFiles();

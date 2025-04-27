@@ -1,8 +1,5 @@
-using ER_Recovery.Web.Services;
-using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Threading.Tasks;
 
 namespace ER_Recovery.Web.Pages
 {

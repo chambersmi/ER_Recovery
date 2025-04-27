@@ -1,12 +1,6 @@
-﻿using ER_Recovery.Domains.Models;
+﻿using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Domains.Models.DTOs;
-using ER_Recovery.Infrastructure.Data.Repositories;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ER_Recovery.Application.Services
 {
@@ -32,7 +26,7 @@ namespace ER_Recovery.Application.Services
 
             foreach(var user in users)
             {
-                if(user.User.SobrietyDate == todaysDate)
+                if(user.SobrietyDate == todaysDate)
                 {
                     UserList.Add(user);
                 }

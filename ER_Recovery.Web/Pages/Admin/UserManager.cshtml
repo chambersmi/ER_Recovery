@@ -25,16 +25,16 @@
             @foreach (var user in Model.UsersWithRolesViewModel)
             {
                 <tr>
-                    <td>@user.User.UserHandle</td>
-                    <td>@user.User.FirstName</td>
-                    <td>@user.User.LastName</td>
-                    <td>@user.User.City</td>
+                    <td>@user.UserHandle</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.City</td>
 
                     <td>@string.Join(", ", user.Roles)</td>
                     <td>
                         <div class="d-flex">
                             <form method="post" asp-page-handler="ChangeRole" class="me-2">
-                                <input type="hidden" name="userId" value="@user.User.Id" />
+                                <input type="hidden" name="userId" value="@user.UserId" />
                                 <input type="hidden" name="newRole" value="@(user.Roles.Contains(UserRoles.Role_Admin) ? UserRoles.Role_User : UserRoles.Role_Admin)" />
                                 <button type="submit" style="width:150px;" class="btn btn-sm
                                     @(user.Roles.Contains(UserRoles.Role_Admin) 
@@ -46,7 +46,7 @@
                         </form>
 
                         <form method="post" asp-page-handler="DeleteUser">
-                            <input type="hidden" name="userId" value="@user.User.Id"/>
+                            <input type="hidden" name="userId" value="@user.UserId"/>
                                 <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
                         </form>
                         </div>
