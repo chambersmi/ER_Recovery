@@ -1,6 +1,6 @@
 ﻿using ER_Recovery.Domains.Entities;
 using ER_Recovery.Domains.Enums;
-using ER_Recovery.Infrastructure.Data;
+using ER_Recovery.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace ER_Recovery.Web
@@ -28,6 +28,22 @@ namespace ER_Recovery.Web
                 return;
             }
 
+            if(context.MessageBoard.Any())
+            {
+                return;
+            }
+
+            var messageBoard = new List<MessageBoard>
+            {
+                new MessageBoard
+                {
+                    MessageId = 1,
+                    UserId = "123408123409",
+                    Title = "Test Message",
+                    Content = "Some gibberish here",
+                    CreatedTime = DateTime.UtcNow,                    
+                }
+            };
 
 
 
@@ -162,6 +178,9 @@ namespace ER_Recovery.Web
             };
 
             context.Meetings.AddRange(meetings);
+            context.SaveChanges();
+
+            context.MessageBoard.AddRange(messageBoard);
             context.SaveChanges();
         }
     }

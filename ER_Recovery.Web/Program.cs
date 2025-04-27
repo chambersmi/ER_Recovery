@@ -30,6 +30,12 @@ namespace ER_Recovery.Web
 
             builder.Services.AddInfrastructure(builder.Configuration);
 
+            builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
+            builder.Services.AddScoped<ISobrietyDateService, SobrietyDateService>();
+            builder.Services.AddScoped<IMeetingsService, MeetingsService>();
+            builder.Services.AddScoped<IMessageBoardService, MessageBoardService>();
+
+
             // Anti Forgery issue with Docker            
             builder.Services.AddDataProtection()
                 .PersistKeysToFileSystem(new DirectoryInfo("/app/keys"))

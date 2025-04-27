@@ -1,7 +1,6 @@
 ﻿using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Entities;
-using ER_Recovery.Infrastructure.Data;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Identity;
@@ -32,13 +31,13 @@ namespace ER_Recovery.Infrastructure
             // Repositories
             services.AddScoped<IMeetingRepository, MeetingRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IMessageBoardRepository, MessageBoardRepository>();
 
             // Services
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IUserManagerService, UserManagerService>();
-            services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
-            services.AddScoped<ISobrietyDateService, SobrietyDateService>();
-            services.AddScoped<IMeetingsService, MeetingsService>();
+
+
 
             return services;
         }

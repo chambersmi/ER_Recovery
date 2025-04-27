@@ -10,5 +10,6 @@ namespace ER_Recovery.Domains.Entities
         public string City { get; set; } = null!;
         public DateTime? Birthdate { get; set; }
         public DateTime? SobrietyDate { get; set; }
+        public ICollection<MessageBoard> Messages { get; set; } = new List<MessageBoard>();
     }
 }

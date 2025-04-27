@@ -1,0 +1,13 @@
+﻿@page
+@model ER_Recovery.Web.Pages.AA.MessageBoardModel
+@{
+}
+
+<h1>Messagte Board</h1>
+@foreach (var messages in Model.MessageBoard)
+{
+    <h6>@messages.UserHandle</h6>
+    <h6>@messages.CreatedTime</h6>
+    <h6>@messages.Title</h6>
+    <h6>@messages.Content</h6>
+}
