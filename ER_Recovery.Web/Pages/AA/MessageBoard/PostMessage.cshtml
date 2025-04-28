@@ -1,0 +1,30 @@
+﻿@page
+@model ER_Recovery.Web.Pages.AA.MessageBoard.PostMessageModel
+@{
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4">Post a Message</h2>
+            <form id="addMessageForm" method="post">
+                <hr/>
+
+                <partial name="_Notifications"/>
+
+                <div class="mb-3">
+                    <label for="AddMessageBoardDTO.Title" class="form-label">Title</label>
+                    <input type="text" class="form-control id="description" asp-for="AddMessageBoardDTO.Title"></input>
+                </div>
+
+                <div class="mb-3">
+                    <label for="AddMessageBoardDTO.Content" class="form-label">Content</label>
+                    <textarea type="text" class="form-control id="description" asp-for="AddMessageBoardDTO.Content"></textarea>
+                </div>
+
+
+            <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

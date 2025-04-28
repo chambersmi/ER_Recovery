@@ -1,4 +1,5 @@
-﻿using ER_Recovery.Application.Interfaces;
+﻿using ER_Recovery.Application.DTOs;
+using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Domains.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -55,6 +56,14 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task<MessageBoard> PostMessageAsync(MessageBoard message)
+        {
+            await _context.MessageBoard.AddAsync(message);
+            await _context.SaveChangesAsync();
+
+            return message;
         }
     }
 }

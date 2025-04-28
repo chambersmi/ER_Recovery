@@ -1,5 +1,8 @@
 ﻿@page
-@model ER_Recovery.Web.Pages.AA.MessageBoardModel
+@model ER_Recovery.Web.Pages.AA.BoardModel
+@using ER_Recovery.Domains.Entities
+@using Microsoft.AspNetCore.Identity
+
 @{
 }
 
@@ -11,19 +14,21 @@
 
             @foreach (var messages in Model.MessageBoard)
             {
+
                 <div class="card mb-4 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">@messages.Title</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
-                        <p class="card-text mt-3">@messages.Content</p>                                            
+                        <p class="card-text mt-3">@messages.Content</p>
                     </div>
                 </div>
 
-
-            <form method="post" asp-page-handler="OnDeleteMessage">
-                <input type="hidden" name="messageId" value="@messages.MessageId"/>
-                <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
-            </form>
+                @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                {
+                    <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">                        
+                        <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                }
             }
         </div>
     </div>

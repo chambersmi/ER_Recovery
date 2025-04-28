@@ -1,4 +1,5 @@
 ﻿using ER_Recovery.Application.DTOs;
+using ER_Recovery.Domains.Entities;
 
 namespace ER_Recovery.Application.Interfaces
 {
@@ -6,5 +7,6 @@ namespace ER_Recovery.Application.Interfaces
     {
         Task<List<MessageBoardDTO>> GetAllMessagesAsync();
         Task<bool> DeleteMessageAsync(int id);
+        Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto);
     }
 }

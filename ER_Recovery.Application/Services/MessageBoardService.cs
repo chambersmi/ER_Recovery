@@ -1,17 +1,26 @@
 ﻿using ER_Recovery.Application.DTOs;
 using ER_Recovery.Application.Interfaces;
+using ER_Recovery.Domains.Entities;
+using ER_Recovery.Infrastructure.Data.Repositories;
 using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace ER_Recovery.Application.Services
 {
     public class MessageBoardService : IMessageBoardService
     {
         private readonly IMessageBoardRepository _messageBoardRepository;
+        private readonly IUserRepository _userRepository;
+
         private readonly ILogger<MessageBoardService> _logger;
 
-        public MessageBoardService(IMessageBoardRepository messageBoardRepository, ILogger<MessageBoardService> logger)
+        public MessageBoardService(
+            IMessageBoardRepository messageBoardRepository, 
+            IUserRepository userRepository,
+            ILogger<MessageBoardService> logger)
         {
             _messageBoardRepository = messageBoardRepository;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -42,6 +51,37 @@ namespace ER_Recovery.Application.Services
             var isDeleted = await _messageBoardRepository.DeleteMessageById(id);
 
             return isDeleted;
+        }
+
+        public async Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto)
+        {
+            var user = await _userRepository.GetUserByIdAsync(dto.UserId);
+
+            if(user == null)
+            {
+                throw new Exception("User could not be found.");
+            }
+
+            var message = new MessageBoard
+            {                
+                Title = dto.Title,
+                Content = dto.Content,
+                UserId = user.Id,
+                User = user,
+                CreatedTime = DateTime.UtcNow
+            };
+
+            var createdPost = await _messageBoardRepository.PostMessageAsync(message);
+
+            return new MessageBoardDTO
+            {
+                MessageId = createdPost.MessageId,
+                Title = createdPost.Title,
+                Content = createdPost.Content,
+                CreatedTime = createdPost.CreatedTime,
+                UserHandle = createdPost.User.UserHandle,
+                UserId = createdPost.UserId
+            };
         }
     }
 }
