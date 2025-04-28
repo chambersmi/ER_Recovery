@@ -22,25 +22,7 @@ namespace ER_Recovery.Web
 
             context.Database.Migrate();
 
-            if (!context.MessageBoard.Any())
-            {
-                var messageBoard = new List<MessageBoard>
-            {
-                new MessageBoard
-                {
-                    UserId = "02fa1ef3-661a-47da-b3c7-b022fd9a3f02",
-                    Title = "Test Message",
-                    Content = "Some gibberish here",
-                    CreatedTime = DateTime.UtcNow,
-                }
-            };
-
-                context.MessageBoard.AddRange(messageBoard);
-                context.SaveChanges();
-            }
-
-
-
+           
             if (!context.Meetings.Any())
             {
                 var meetings = new List<Meeting>

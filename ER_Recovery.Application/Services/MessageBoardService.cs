@@ -73,7 +73,7 @@ namespace ER_Recovery.Application.Services
                 Title = createdPost.Title,
                 Content = createdPost.Content,
                 CreatedTime = createdPost.CreatedTime,
-                UserHandle = createdPost.User.UserHandle,
+                UserHandle = userHandle,
                 UserId = createdPost.UserId
             };
         }

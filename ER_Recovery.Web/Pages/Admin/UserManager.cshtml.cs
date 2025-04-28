@@ -44,7 +44,10 @@ namespace ER_Recovery.Web.Pages.Admin
         }
         public async Task OnGet()
         {
-            var users = await _userRepo.GetAllUsersAsync();
+            
+            var currentUser = await _userManager.GetUserAsync(User);                       
+            IsAdmin = await _userManager.IsInRoleAsync(currentUser, UserRoles.Role_Admin);            
+
             var userDTO = await _userManagerService.GetAllUsersWithRoles();
             
             if(userDTO == null || !userDTO.Any())
@@ -57,6 +60,7 @@ namespace ER_Recovery.Web.Pages.Admin
             UsersWithRolesViewModel = userDTO.Select(dto => new UserWithRole
             {
                 UserId = dto.UserId,
+                UserHandle = dto.UserHandle,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 City = dto.City,
@@ -84,21 +88,19 @@ namespace ER_Recovery.Web.Pages.Admin
         public async Task<IActionResult> OnPostDeleteUserAsync(string userId)
         {
             // Check if user is trying to delete themselves
-            var currentUser = await _userManager.GetUserAsync(User);
-            if(currentUser == null)
-            {
-                return RedirectToPage();
-            }
+            //var currentUser = await _userManager.GetUserAsync(User);
+            //if(currentUser == null)
+            //{
+            //    return RedirectToPage();
+            //}
 
-            IsSelf = currentUser?.Id == userId;
-            IsAdmin = await _userManager.IsInRoleAsync(currentUser, UserRoles.Role_Admin);
+            //IsSelf = currentUser?.Id == userId;
+            //IsAdmin = await _userManager.IsInRoleAsync(currentUser, UserRoles.Role_Admin);
             
             try
             {
-                if (!IsSelf && !IsAdmin)
-                {
+
                     await _userManagerService.DeleteUserByIdAsync(userId);
-                }
             } 
             catch (Exception ex)
             {
