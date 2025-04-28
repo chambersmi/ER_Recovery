@@ -75,7 +75,7 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public async Task<IActionResult> OnPostDeleteUserAsync(string userId)
         {
-            await _userRepo.DeleteUserByIdAsync(userId);
+            await _userManagerService.DeleteUserByIdAsync(userId);
             return RedirectToPage();
         }
         

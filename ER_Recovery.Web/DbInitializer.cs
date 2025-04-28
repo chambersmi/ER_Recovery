@@ -22,32 +22,28 @@ namespace ER_Recovery.Web
 
             context.Database.Migrate();
 
-
-            if (context.Meetings.Any())
+            if (!context.MessageBoard.Any())
             {
-                return;
-            }
-
-            if(context.MessageBoard.Any())
-            {
-                return;
-            }
-
-            var messageBoard = new List<MessageBoard>
+                var messageBoard = new List<MessageBoard>
             {
                 new MessageBoard
                 {
-                    MessageId = 1,
-                    UserId = "123408123409",
+                    UserId = "02fa1ef3-661a-47da-b3c7-b022fd9a3f02",
                     Title = "Test Message",
                     Content = "Some gibberish here",
-                    CreatedTime = DateTime.UtcNow,                    
+                    CreatedTime = DateTime.UtcNow,
                 }
             };
 
+                context.MessageBoard.AddRange(messageBoard);
+                context.SaveChanges();
+            }
 
 
-            var meetings = new List<Meeting>
+
+            if (!context.Meetings.Any())
+            {
+                var meetings = new List<Meeting>
             {
                 new Meeting
                 {
@@ -175,13 +171,14 @@ namespace ER_Recovery.Web
                     MeetingType = MeetingType.AA
                 }
 
+
             };
 
-            context.Meetings.AddRange(meetings);
-            context.SaveChanges();
+                context.Meetings.AddRange(meetings);
+                context.SaveChanges();
 
-            context.MessageBoard.AddRange(messageBoard);
-            context.SaveChanges();
+            }
+
         }
     }
 }

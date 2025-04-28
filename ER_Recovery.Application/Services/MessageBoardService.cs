@@ -22,7 +22,7 @@ namespace ER_Recovery.Application.Services
             if (messages != null)
             {
                 return messages.Select(m => new MessageBoardDTO
-                {
+                {                    
                     MessageId = m.MessageId,
                     UserHandle = m.User.UserHandle,
                     Title = m.Title,
@@ -35,6 +35,13 @@ namespace ER_Recovery.Application.Services
             {
                 return new List<MessageBoardDTO>();
             }
+        }
+
+        public async Task<bool> DeleteMessageAsync(int id)
+        {
+            var isDeleted = await _messageBoardRepository.DeleteMessageById(id);
+
+            return isDeleted;
         }
     }
 }

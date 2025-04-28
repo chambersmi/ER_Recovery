@@ -21,5 +21,11 @@ namespace ER_Recovery.Web.Pages.AA
             MessageBoard = await _messageBoardService.GetAllMessagesAsync();
 
         }
+
+        public async Task<IActionResult> OnPostMessageDeleteAsync(int id)
+        {
+            await _messageBoardService.DeleteMessageAsync(id);
+            return RedirectToPage();
+        }
     }
 }

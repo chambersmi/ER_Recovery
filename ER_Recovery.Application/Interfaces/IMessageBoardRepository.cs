@@ -10,5 +10,6 @@ namespace ER_Recovery.Application.Interfaces
     public interface IMessageBoardRepository
     {
         Task<List<MessageBoard>> GetAllMessagesAsync();
+        Task<bool> DeleteMessageById(int id);
     }
 }
