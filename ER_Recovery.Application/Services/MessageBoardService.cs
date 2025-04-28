@@ -3,7 +3,6 @@ using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Domains.Entities;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel.DataAnnotations;
 
 namespace ER_Recovery.Application.Services
 {
@@ -36,8 +35,8 @@ namespace ER_Recovery.Application.Services
                     UserHandle = m.User.UserHandle,
                     Title = m.Title,
                     Content = m.Content,
-                    CreatedTime = m.CreatedTime
-                
+                    CreatedTime = m.CreatedTime,
+                    UserId = m.UserId                
                 }).ToList();
             }
             else
@@ -53,21 +52,16 @@ namespace ER_Recovery.Application.Services
             return isDeleted;
         }
 
-        public async Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto)
+        public async Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto, string userId, string userHandle)
         {
-            var user = await _userRepository.GetUserByIdAsync(dto.UserId);
 
-            if(user == null)
-            {
-                throw new Exception("User could not be found.");
-            }
 
             var message = new MessageBoard
             {                
                 Title = dto.Title,
                 Content = dto.Content,
-                UserId = user.Id,
-                User = user,
+                UserId = userId,
+                UserHandle = userHandle,
                 CreatedTime = DateTime.UtcNow
             };
 

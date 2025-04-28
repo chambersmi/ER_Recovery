@@ -1,10 +1,12 @@
 ﻿@page
-@model ER_Recovery.Web.Pages.AA.BoardModel
+@model ER_Recovery.Web.Pages.AA.MessageBoard.IndexModel
 @using ER_Recovery.Domains.Entities
 @using Microsoft.AspNetCore.Identity
 
 @{
 }
+
+<partial name="_Notifications" />
 
 <div class="container">
     <h3 class="my-4">Message Board</h3>
@@ -26,7 +28,7 @@
 
                         <div class="card mb-4 shadow-sm">
                             <div class="card-body">
-                                <h5 class="card-title">@messages.Title</h5>
+                            <h5 class="card-title">Subject: <strong>@messages.Title</strong></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
                                 <p class="card-text mt-3">@messages.Content</p>
                             </div>
@@ -38,8 +40,6 @@
                                 <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         }
-
-
                     }
 
             </div>

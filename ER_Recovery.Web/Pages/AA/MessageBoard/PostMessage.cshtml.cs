@@ -35,13 +35,13 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
         public async Task<IActionResult> OnPostAsync()
         {
             var user = await _userManager.GetUserAsync(User);
-
+            
             if (user == null)
                 return Challenge();
 
             try
-            {               
-                await _messageBoardService.PostMessageAsync(AddMessageBoardDTO);
+            {
+                await _messageBoardService.PostMessageAsync(AddMessageBoardDTO, user.Id, user.UserHandle);
 
                 var notification = new Notifications
                 {
@@ -51,7 +51,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 
                 TempData["Notification"] = JsonSerializer.Serialize(notification);
 
-                return RedirectToPage("/AA/MessageBoard/Board");
+                return RedirectToPage("/AA/MessageBoard/Index");
 
             } catch (Exception ex)
             {

@@ -8,7 +8,7 @@ namespace ER_Recovery.Application.DTOs
 {
     public class AddMessageBoardDTO
     {
-        public string UserId { get; set; } = null!;
+        public string? UserId { get; set; }
         public string Title { get; set; } = null!;
         public string Content { get; set; } = null!;
     }

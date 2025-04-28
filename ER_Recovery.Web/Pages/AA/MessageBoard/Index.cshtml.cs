@@ -5,9 +5,9 @@ using ER_Recovery.Infrastructure.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ER_Recovery.Web.Pages.AA
+namespace ER_Recovery.Web.Pages.AA.MessageBoard
 {
-    public class BoardModel : PageModel
+    public class IndexModel : PageModel
     {
         private readonly IMessageBoardService _messageBoardService;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -18,7 +18,7 @@ namespace ER_Recovery.Web.Pages.AA
         public string? CurrentUserId { get; set; }
         public bool IsAdmin { get; set; }
 
-        public BoardModel(
+        public IndexModel(
             IMessageBoardService messageBoardService,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager
@@ -32,8 +32,11 @@ namespace ER_Recovery.Web.Pages.AA
         public async Task OnGetAsync()
         {
             MessageBoard = await _messageBoardService.GetAllMessagesAsync();
-            CurrentUserId = _userManager.GetUserId(User);
-            IsAdmin = User.IsInRole(UserRoles.Role_Admin);
+
+            var user = await _userManager.GetUserAsync(User);
+            
+            CurrentUserId = user?.Id;
+            IsAdmin = user != null && await _userManager.IsInRoleAsync(user, UserRoles.Role_Admin);
 
         }
 
