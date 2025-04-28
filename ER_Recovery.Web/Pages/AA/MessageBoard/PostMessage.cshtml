@@ -5,7 +5,7 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
             <h2 class="text-center mb-4">Post a Message</h2>
             <form id="addMessageForm" method="post">
                 <hr/>
@@ -14,7 +14,7 @@
 
                 <div class="mb-3">
                     <label for="AddMessageBoardDTO.Title" class="form-label">Title</label>
-                    <input type="text" class="form-control id="description" asp-for="AddMessageBoardDTO.Title"></input>
+                    <input type="text" class="form-control id="description" asp-for="AddMessageBoardDTO.Title"/>
                 </div>
 
                 <div class="mb-3">
@@ -23,7 +23,8 @@
                 </div>
 
 
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary me-2">Save</button>
+            <button type="reset" class="btn btn-secondary me-2">Cancel</button>
             <a asp-page="/AA/MessageBoard/Index" class="btn btn-primary">Back</a>
 
             </form>

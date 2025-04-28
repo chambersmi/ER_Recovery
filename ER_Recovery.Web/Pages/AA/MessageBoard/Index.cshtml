@@ -22,7 +22,6 @@
         <div class="col-md-6">
             <div class="row">
  
-
                     @foreach (var messages in Model.MessageBoard)
                     {
 
@@ -31,17 +30,19 @@
                             <h5 class="card-title">Subject: <strong>@messages.Title</strong></h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
                                 <p class="card-text mt-3">@messages.Content</p>
-                            </div>
+
+                            @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                            {
+                                <div class="d-flex justify-content-end">
+                                <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
+                                    <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3">Delete</button>
+                                </form>
+                                </div>
+                            }
+
+                            </div>                        
                         </div>
-
-                        @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
-                        {
-                            <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
-                                <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        }
                     }
-
             </div>
         </div>
     </div>
