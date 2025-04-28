@@ -17,6 +17,7 @@ namespace ER_Recovery.Web.Pages.Admin
         private readonly IUserManagerService _userManagerService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ILogger<UserManagerModel> _logger;
                 
         [BindProperty]
         public List<UserWithRole> UsersWithRolesViewModel { get; set; } = new();
@@ -24,26 +25,33 @@ namespace ER_Recovery.Web.Pages.Admin
         [BindProperty]
         public List<string> AllRoles { get; set; } = new();
 
-        public bool isAdmin { get; set; }
+        public string? GetCurrentUserId { get; set; }
+        public bool IsSelf { get; set; } = true;
+        public bool IsAdmin { get; set; } = false;
+
 
         public UserManagerModel(IUserRepository userRepo, 
             UserManager<ApplicationUser> userManager,
             IUserManagerService userManagerService,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ILogger<UserManagerModel> logger)
         {
             _userRepo = userRepo;
             _userManager = userManager;
             _roleManager = roleManager;
             _userManagerService = userManagerService;
+            _logger = logger;
         }
         public async Task OnGet()
         {
-            //var users = await _userRepo.GetAllUsersAsync();
+            var users = await _userRepo.GetAllUsersAsync();
             var userDTO = await _userManagerService.GetAllUsersWithRoles();
+            
             if(userDTO == null || !userDTO.Any())
             {
                 // log warning
             }
+
             AllRoles = _roleManager.Roles.Select(r => r.Name!).ToList();
 
             UsersWithRolesViewModel = userDTO.Select(dto => new UserWithRole
@@ -75,7 +83,28 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public async Task<IActionResult> OnPostDeleteUserAsync(string userId)
         {
-            await _userManagerService.DeleteUserByIdAsync(userId);
+            // Check if user is trying to delete themselves
+            var currentUser = await _userManager.GetUserAsync(User);
+            if(currentUser == null)
+            {
+                return RedirectToPage();
+            }
+
+            IsSelf = currentUser?.Id == userId;
+            IsAdmin = await _userManager.IsInRoleAsync(currentUser, UserRoles.Role_Admin);
+            
+            try
+            {
+                if (!IsSelf && !IsAdmin)
+                {
+                    await _userManagerService.DeleteUserByIdAsync(userId);
+                }
+            } 
+            catch (Exception ex)
+            {
+                _logger.LogError($"Delete Failed.\n{ex.Message}");
+            }
+            
             return RedirectToPage();
         }
         

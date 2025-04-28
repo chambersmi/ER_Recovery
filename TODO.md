@@ -1,0 +1,5 @@
+- Fix deleting error issue [X]
+- Make it so you can't delete yourself or another admin [X]
+- Maybe create a role of God?
+- Edit Message Board posts
+- You can still demote other admins

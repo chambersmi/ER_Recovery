@@ -25,6 +25,7 @@ namespace ER_Recovery.Application.Services
         public async Task<List<UserDTO>> GetAllUsersWithRoles()
         {
             var users = _userManager.Users.ToList();
+
             var usersDTO = new List<UserDTO>();
 
             foreach (var user in users)
@@ -33,6 +34,7 @@ namespace ER_Recovery.Application.Services
 
                 var userDTO = new UserDTO
                 {
+                    UserId = user.Id,
                     UserHandle = user.UserHandle,
                     FirstName = user.FirstName,
                     LastName = user.LastName,

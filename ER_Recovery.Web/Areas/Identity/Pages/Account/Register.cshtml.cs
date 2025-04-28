@@ -142,8 +142,9 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
             {
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_User)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_Admin)).GetAwaiter().GetResult();
-
+                _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_God)).GetAwaiter().GetResult();
             }
+            
 
             // Populate RoleList
             Input = new()
@@ -173,7 +174,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);                
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
+                
                 if(string.IsNullOrWhiteSpace(Input.UserHandle))
                 {
                     user.UserHandle = Input.SuggestedHandle;

@@ -44,11 +44,12 @@
                                         ? "Demote to User" : "Promote to Admin")                                                                            
                                 </button>
                         </form>
-
-                        <form method="post" asp-page-handler="DeleteUser">
-                            <input type="hidden" name="userId" value="@user.UserId"/>
+                        @if(!Model.IsSelf && !Model.IsAdmin) {
+                            <form method="post" asp-page-handler="DeleteUser">
+                                <input type="hidden" name="userId" value="@user.UserId" />
                                 <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
+                            </form>
+                        }
                         </div>
                     </td>
                 </tr>
