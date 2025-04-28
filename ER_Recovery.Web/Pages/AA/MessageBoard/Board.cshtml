@@ -6,30 +6,43 @@
 @{
 }
 
-<div class="my-4">Message Board</div>
 <div class="container">
+    <h3 class="my-4">Message Board</h3>
 
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-2 mx-4">
+            <div class="row mb-3">
+                <a asp-page="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+            </div>
 
-            @foreach (var messages in Model.MessageBoard)
-            {
+        </div>
 
-                <div class="card mb-4 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@messages.Title</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
-                        <p class="card-text mt-3">@messages.Content</p>
-                    </div>
-                </div>
+        <div class="col-md-6">
+            <div class="row">
+ 
 
-                @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
-                {
-                    <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">                        
-                        <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
-                    </form>
-                }
-            }
+                    @foreach (var messages in Model.MessageBoard)
+                    {
+
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">@messages.Title</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
+                                <p class="card-text mt-3">@messages.Content</p>
+                            </div>
+                        </div>
+
+                        @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                        {
+                            <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
+                                <button type="submit" style="width:auto;" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        }
+
+
+                    }
+
+            </div>
         </div>
     </div>
 </div>
