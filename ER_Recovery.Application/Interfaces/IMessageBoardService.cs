@@ -8,5 +8,8 @@ namespace ER_Recovery.Application.Interfaces
         Task<List<MessageBoardDTO>> GetAllMessagesAsync();
         Task<bool> DeleteMessageAsync(int id);
         Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto, string userId, string userHandle);
+        Task<MessageBoardDTO> GetMessageByIdAsync(int id);
+        Task<EditMessageBoardDTO> EditMessageAsync(EditMessageBoardDTO dto);
+
     }
 }

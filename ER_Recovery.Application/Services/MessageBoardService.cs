@@ -45,6 +45,29 @@ namespace ER_Recovery.Application.Services
             }
         }
 
+        public async Task<MessageBoardDTO> GetMessageByIdAsync(int id)
+        {
+            var message = await _messageBoardRepository.GetMessageByIdAsync(id);
+
+            if(message != null)
+            {
+                var dto = new MessageBoardDTO
+                {
+                    MessageId = message.MessageId,
+                    UserHandle = message.UserHandle,
+                    Title = message.Title,
+                    Content = message.Content,
+                    CreatedTime = message.CreatedTime,
+                    UserId = message.UserId
+                };
+
+                return dto;            
+            }
+
+            return new MessageBoardDTO();
+
+        }
+
         public async Task<bool> DeleteMessageAsync(int id)
         {
             var isDeleted = await _messageBoardRepository.DeleteMessageById(id);
@@ -75,6 +98,28 @@ namespace ER_Recovery.Application.Services
                 CreatedTime = createdPost.CreatedTime,
                 UserHandle = userHandle,
                 UserId = createdPost.UserId
+            };
+        }
+
+        public async Task<EditMessageBoardDTO> EditMessageAsync(EditMessageBoardDTO dto)
+        {
+            var existingMessage = await _messageBoardRepository.GetMessageByIdAsync(dto.MessageId);
+
+            if(existingMessage == null)
+            {
+                _logger.LogError($"Message with ID {existingMessage.MessageId} not found.");
+                throw new KeyNotFoundException($"Message with ID {existingMessage.MessageId} not found.");                
+            }
+            
+            existingMessage.Title = dto.Title;
+            existingMessage.Content = dto.Content;
+
+            var messageResponse = await _messageBoardRepository.UpdateMessageAsync(existingMessage);
+
+            return new EditMessageBoardDTO
+            {
+                Title = messageResponse.Title,
+                Content = messageResponse.Content
             };
         }
     }

@@ -12,5 +12,7 @@ namespace ER_Recovery.Application.Interfaces
         Task<List<MessageBoard>> GetAllMessagesAsync();
         Task<bool> DeleteMessageById(int id);
         Task<MessageBoard> PostMessageAsync(MessageBoard message);
+        Task<MessageBoard> GetMessageByIdAsync(int id);
+        Task<MessageBoard> UpdateMessageAsync(MessageBoard messageBoard);
     }
 }

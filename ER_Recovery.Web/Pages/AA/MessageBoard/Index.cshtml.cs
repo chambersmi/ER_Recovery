@@ -15,6 +15,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        [BindProperty]
         public List<MessageBoardDTO> MessageBoard { get; set; } = new List<MessageBoardDTO>();
 
         public string? CurrentUserId { get; set; }

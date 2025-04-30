@@ -16,7 +16,6 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 
         private readonly IMessageBoardService _messageBoardService;
         private readonly UserManager<ApplicationUser> _userManager;
-
         private readonly ILogger<PostMessageModel> _logger;
 
         [BindProperty]

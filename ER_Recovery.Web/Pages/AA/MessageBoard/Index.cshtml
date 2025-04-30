@@ -10,6 +10,7 @@
 
 <div class="container">
     <h3 class="my-4">Message Board</h3>
+    <input type="hidden" name="id" id="modalMessageId" />
 
     <div class="row mb-3">
         @if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -35,6 +36,7 @@
 
                 @foreach (var messages in Model.MessageBoard)
                 {
+                    var modalId = $"deleteModal_{messages.MessageId}";
 
                     <div class="card mb-4 shadow-sm">
                         <div class="card-body">
@@ -46,8 +48,12 @@
                             {
                                 <div class="d-flex justify-content-end">
                                     <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
-                                        <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3">Delete</button>
+                                        <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3 me-2">Delete</button>
                                     </form>
+                                  
+                                    <a asp-page="/AA/MessageBoard/EditMessage" asp-route-messageId="@messages.MessageId" class="btn btn-primary btn-sm mb-3">
+                                        Edit
+                                    </a>
                                 </div>
                             }
 
@@ -58,3 +64,4 @@
         </div>
     </div>
 </div>
+

@@ -65,5 +65,13 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
 
             return message;
         }
+
+        public async Task<MessageBoard> UpdateMessageAsync(MessageBoard messageBoard)
+        {
+            _context.MessageBoard.Update(messageBoard);
+            await _context.SaveChangesAsync();
+
+            return messageBoard;
+        }
     }
 }

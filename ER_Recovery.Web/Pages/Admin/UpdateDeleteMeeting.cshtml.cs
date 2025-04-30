@@ -19,8 +19,8 @@ namespace ER_Recovery.Web.Pages.Admin
 
         public MeetingDay? MeetingDayEnum { get; set; } = null;
         public MeetingType? MeetingTypeEnum { get; set; } = null;
-        public List<SelectListItem> DaysOfWeekSelectList { get; set; }
-        public List<SelectListItem> MeetingTypeSelectList { get; set; }
+        public List<SelectListItem> DaysOfWeekSelectList { get; set; } = new();
+        public List<SelectListItem> MeetingTypeSelectList { get; set; } = new();
 
         [BindProperty]
         public EditMeetingDTO EditMeetingDTO { get; set; } = new EditMeetingDTO();
@@ -84,6 +84,15 @@ namespace ER_Recovery.Web.Pages.Admin
                 try
                 {
                     await _meetingService.UpdateMeetingAsync(EditMeetingDTO);
+
+                    var notification = new Notifications
+                    {
+                        Type = NotificationType.Success,
+                        Message = "Meeting successfully updated!"
+                    };
+
+                    TempData["Notification"] = JsonSerializer.Serialize(notification);
+
                     return RedirectToPage("/AA/Meetings");
                 } catch (Exception ex)
                 {

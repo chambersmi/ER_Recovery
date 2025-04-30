@@ -1,5 +1,6 @@
 - Fix deleting error issue [X]
 - Make it so you can't delete yourself or another admin [X]
-- Maybe create a role of God?
-- Edit Message Board posts
+- Maybe create a role of God? [X]
+- Edit Message Board posts [X]
 - You can still demote other admins
+- Partial/reusable code for var notification = new Notifications()
