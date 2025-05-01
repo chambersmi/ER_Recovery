@@ -31,7 +31,9 @@ FROM base AS final
 # Set Production (uses appsettings.json)
 #ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
-COPY --from=publish /app/publish .
 USER www-data
+RUN mkdir /data && chown -R www-data:www-data /data
+COPY --from=publish /app/publish .
+
 
 ENTRYPOINT ["dotnet", "ER_Recovery.Web.dll"]

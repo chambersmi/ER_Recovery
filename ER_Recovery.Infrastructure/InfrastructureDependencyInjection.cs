@@ -23,16 +23,10 @@ namespace ER_Recovery.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
 
-            if (environment.IsDevelopment())
-            {
-                services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(configuration.GetConnectionString("DevConnection")));
-            }
-            else
-            {
-                services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
-            }
+
+            services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+
             // Add Identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
