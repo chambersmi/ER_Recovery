@@ -3,11 +3,13 @@ using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Entities;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using ER_Recovery.Infrastructure.Utility;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +20,19 @@ namespace ER_Recovery.Infrastructure
 {
     public static class InfrastructureDependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
         {
-            services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
+            if (environment.IsDevelopment())
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(configuration.GetConnectionString("DevConnection")));
+            }
+            else
+            {
+                services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+            }
             // Add Identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AppDbContext>()

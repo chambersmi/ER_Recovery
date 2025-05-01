@@ -164,7 +164,6 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            //var createAnonymousHandle =  await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync();
 
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -211,6 +210,7 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                     } 
                     else
                     {
+                        
                         await _userManager.AddToRoleAsync(user, UserRoles.Role_User);
                     }
 

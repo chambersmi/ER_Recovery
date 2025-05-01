@@ -4,3 +4,4 @@
 - Edit Message Board posts [X]
 - You can still demote other admins
 - Partial/reusable code for var notification = new Notifications()
+- Modals for all delete buttons

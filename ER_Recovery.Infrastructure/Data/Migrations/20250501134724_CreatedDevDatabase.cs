@@ -5,7 +5,7 @@
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class PushToDev : Migration
+    public partial class CreatedDevDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

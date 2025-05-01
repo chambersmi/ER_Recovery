@@ -16,11 +16,11 @@ namespace ER_Recovery.Web
             var builder = WebApplication.CreateBuilder(args);
 
             // Set Env or Production environments
-            //builder.Configuration
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: false)
-            //    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-            //    .AddEnvironmentVariables();
+            builder.Configuration
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
             // Add services to the container.
             builder.Services.AddRazorPages();
@@ -28,7 +28,7 @@ namespace ER_Recovery.Web
             // HttpClient
             builder.Services.AddHttpClient<IDailyReflectionService, DailyReflectionService>();
 
-            builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
             builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
             builder.Services.AddScoped<ISobrietyDateService, SobrietyDateService>();
@@ -51,8 +51,6 @@ namespace ER_Recovery.Web
                 app.UseHsts();
                 DbInitializer.InitDb(app);
             }
-
-
 
             // Static files
             app.UseStaticFiles();
