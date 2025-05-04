@@ -1,3 +1,4 @@
+IMPORTANT: SuggestedHandle not setting when left blank. 
 - Fix deleting error issue [X]
 - Make it so you can't delete yourself or another admin [X]
 - Maybe create a role of God? [X]
