@@ -11,14 +11,46 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250502000448_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250504213002_InitialCreateWithAnnouncements")]
+    partial class InitialCreateWithAnnouncements
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.4");
+
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.Announcement", b =>
+                {
+                    b.Property<int>("AnnouncementId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserHandle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("AnnouncementId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Announcements");
+                });
 
             modelBuilder.Entity("ER_Recovery.Domains.Entities.Meeting", b =>
                 {
@@ -318,6 +350,17 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.Announcement", b =>
+                {
+                    b.HasOne("ER_Recovery.Domains.Entities.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ER_Recovery.Domains.Entities.MessageBoard", b =>

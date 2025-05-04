@@ -144,17 +144,19 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(UserRoles.Role_God)).GetAwaiter().GetResult();
             }
-            
+
 
             // Populate RoleList
             Input = new()
             {
+                SuggestedHandle = await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync(),
+
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
-                }),
-                SuggestedHandle = await _handleGeneratorService.GenerateUniqueAnonymousHandleAsync()
+                })
+
             };
 
 
@@ -190,14 +192,14 @@ namespace ER_Recovery.Web.Areas.Identity.Pages.Account
                 user.SobrietyDate = Input.SobrietyDate;
                 user.UserHandle = Input.UserHandle;
 
-                //if (user.UserHandle == null)
-                //{
-                //    user.UserHandle = createAnonymousHandle;
-                //}
-                //else
-                //{
-                //    user.UserHandle = Input.UserHandle;
-                //}
+                if (user.UserHandle == null)
+                {
+                    user.UserHandle = Input.SuggestedHandle;
+                }
+                else
+                {
+                    user.UserHandle = Input.UserHandle;
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

@@ -1,4 +1,6 @@
+using ER_Recovery.Application.DTOs;
 using ER_Recovery.Application.Interfaces;
+using ER_Recovery.Application.Mappings;
 using ER_Recovery.Application.Services;
 using ER_Recovery.Domains.Entities;
 using ER_Recovery.Infrastructure;
@@ -35,6 +37,13 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
             builder.Services.AddScoped<IMessageBoardService, MessageBoardService>();
 
+            // Generic Services
+            builder.Services.AddScoped<IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO>,
+                PostService<MessageBoard, PostDTO, EditMessageBoardDTO, AddMessageBoardDTO>>();
+
+
+            // builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Anti Forgery issue with Docker            
             builder.Services.AddDataProtection()

@@ -11,30 +11,32 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 {
     public class IndexModel : PageModel
     {
-        private readonly IMessageBoardService _messageBoardService;
+        //private readonly IMessageBoardService _messageBoardService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        private readonly IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> _postService;
+
         [BindProperty]
-        public List<MessageBoardDTO> MessageBoard { get; set; } = new List<MessageBoardDTO>();
+        public List<PostDTO> MessageBoard { get; set; } = new List<PostDTO>();
 
         public string? CurrentUserId { get; set; }
         public bool IsAdmin { get; set; }
 
         public IndexModel(
-            IMessageBoardService messageBoardService,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> postService
             )
         {
-            _messageBoardService = messageBoardService;
             _userManager = userManager;
             _roleManager = roleManager;
+            _postService = postService;
         }
 
         public async Task OnGetAsync()
         {
-            MessageBoard = await _messageBoardService.GetAllMessagesAsync();
+            MessageBoard = await _postService.GetAllPostsAsync();
 
             var user = await _userManager.GetUserAsync(User);
             
@@ -50,7 +52,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 
         public async Task<IActionResult> OnPostMessageDeleteAsync(int messageId)
         {
-            await _messageBoardService.DeleteMessageAsync(messageId);
+            await _postService.DeletePostAsync(messageId);
 
             var notification = new Notifications
             {

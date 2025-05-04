@@ -26,5 +26,6 @@ namespace ER_Recovery.Infrastructure
         public DbSet<Meeting> Meetings { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<MessageBoard> MessageBoard { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
     }
 }
