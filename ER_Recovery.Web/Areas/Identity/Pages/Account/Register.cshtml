@@ -41,12 +41,13 @@
     }
 </style>
 
+
 <div class="container">
     <div class="form-wrapper">
         <div class="register-card">
             <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                 <div class="form-title">@ViewData["Title"]</div>
-
+                <input asp-for="Input.SuggestedHandle" type="hidden" value="@Model.Input.SuggestedHandle" />
                 <!-- Validation Summary -->
                 <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 

@@ -25,13 +25,17 @@ namespace ER_Recovery.Web
             //    .AddEnvironmentVariables();
 
             // Add services to the container.
+
+
             builder.Services.AddRazorPages();
 
             // HttpClient
             builder.Services.AddHttpClient<IDailyReflectionService, DailyReflectionService>();
 
+            // Add Infrastructure
             builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 
+            // Services
             builder.Services.AddScoped<IHandleGeneratorService, HandleGeneratorService>();
             builder.Services.AddScoped<ISobrietyDateService, SobrietyDateService>();
             builder.Services.AddScoped<IMeetingsService, MeetingsService>();
@@ -41,8 +45,6 @@ namespace ER_Recovery.Web
             builder.Services.AddScoped<IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO>,
                 PostService<MessageBoard, PostDTO, EditMessageBoardDTO, AddMessageBoardDTO>>();
 
-
-            // builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Anti Forgery issue with Docker            
