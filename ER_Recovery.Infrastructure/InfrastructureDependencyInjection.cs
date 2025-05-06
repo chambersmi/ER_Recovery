@@ -37,10 +37,6 @@ namespace ER_Recovery.Infrastructure
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMessageBoardRepository, MessageBoardRepository>();
 
-            // Registering Generic Repositories
-            services.AddScoped<IPostRepository<MessageBoard>, PostRepository<MessageBoard>>();
-            services.AddScoped<IPostRepository<Announcement>, PostRepository<Announcement>>();
-
             // Services
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IUserManagerService, UserManagerService>();            

@@ -14,7 +14,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
     public class PostMessageModel : PageModel
     {
 
-        private readonly IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> _postService;
+        private readonly IMessageBoardService _messageBoardService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<PostMessageModel> _logger;
 
@@ -22,11 +22,11 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
         public AddMessageBoardDTO AddMessageBoardDTO { get; set; } = new AddMessageBoardDTO();
 
         public PostMessageModel(
-            IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> postService,
+            IMessageBoardService messageBoardService,
             ILogger<PostMessageModel> logger,
             UserManager<ApplicationUser> userManager)
         {
-            _postService = postService;
+            _messageBoardService = messageBoardService;
             _userManager = userManager;
             _logger = logger;
         }
@@ -41,7 +41,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
             try
             {
                 //errors with userhandle and userid and user
-                await _postService.AddPostWithUserAsync(AddMessageBoardDTO, user.Id, user.UserHandle);
+                await _messageBoardService.PostMessageAsync(AddMessageBoardDTO, user.Id, user.UserHandle);
 
                 var notification = new Notifications
                 {

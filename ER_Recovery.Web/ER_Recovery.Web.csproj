@@ -11,6 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Data\**" />
+	  <Content Remove="Data\**" />
+	  <EmbeddedResource Remove="Data\**" />
+	  <None Remove="Data\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Update="wwwroot\**\*">
 			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
 		</Content>
@@ -31,10 +38,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\ER_Recovery.Application\ER_Recovery.Application.csproj" />
 		<ProjectReference Include="..\ER_Recovery.Infrastructure\ER_Recovery.Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Data\" />
 	</ItemGroup>
 
 </Project>

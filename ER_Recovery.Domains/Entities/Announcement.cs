@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace ER_Recovery.Domains.Entities
 {
-    public class Announcement : IPost
+    public class Announcement
     {
         [Key]
         public int AnnouncementId { get; set; }
-        public int Id => AnnouncementId;
         public ApplicationUser User { get; set; } = null!;
         public string UserHandle { get; set; } = null!;
         public string Title { get; set; } = null!;

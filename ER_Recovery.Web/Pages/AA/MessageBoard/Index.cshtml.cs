@@ -11,14 +11,12 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 {
     public class IndexModel : PageModel
     {
-        //private readonly IMessageBoardService _messageBoardService;
+        private readonly IMessageBoardService _messageBoardService;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        private readonly IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> _postService;
+        private readonly RoleManager<IdentityRole> _roleManager;        
 
         [BindProperty]
-        public List<PostDTO> MessageBoard { get; set; } = new List<PostDTO>();
+        public List<MessageBoardDTO> MessageBoard { get; set; } = new List<MessageBoardDTO>();
 
         public string? CurrentUserId { get; set; }
         public bool IsAdmin { get; set; }
@@ -26,17 +24,17 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IPostService<PostDTO, EditMessageBoardDTO, AddMessageBoardDTO> postService
+            IMessageBoardService messageBoardService
             )
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _postService = postService;
+            _messageBoardService = messageBoardService;
         }
 
         public async Task OnGetAsync()
         {
-            MessageBoard = await _postService.GetAllPostsAsync();
+            MessageBoard = await _messageBoardService.GetAllMessagesAsync();
 
             var user = await _userManager.GetUserAsync(User);
             
@@ -52,7 +50,7 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
 
         public async Task<IActionResult> OnPostMessageDeleteAsync(int messageId)
         {
-            await _postService.DeletePostAsync(messageId);
+            await _messageBoardService.DeleteMessageAsync(messageId);
 
             var notification = new Notifications
             {
