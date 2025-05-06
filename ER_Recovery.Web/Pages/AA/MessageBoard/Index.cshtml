@@ -10,58 +10,74 @@
 
 <div class="container">
     <h3 class="my-4">Message Board</h3>
-    <input type="hidden" name="id" id="modalMessageId" />
+        <input type="hidden" name="id" id="modalMessageId" />
 
-    <div class="row mb-3">
-        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        <div class="row mb-3">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                <div class="col-md-2 mx-4">
+                    <div class="row mb-3">
+                        <a asp-page="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <div class="col-md-2 mx-4">
+                    <div class="row mb-3">
+                        <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+                    </div>
+                </div>
+            }
+        @if (Model.MessageBoard.Any())
         {
-            <div class="col-md-2 mx-4">
-                <div class="row mb-3">
-                    <a asp-page="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+            <div class="col-md-6">
+                <div class="row">
+
+                    @foreach (var messages in Model.MessageBoard)
+                    {
+                        var modalId = $"deleteModal_{messages.MessageId}";
+
+                        <div class="card mb-4 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">Subject: <strong>@messages.Title</strong></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
+                                <p class="card-text mt-3">@messages.Content</p>
+
+                                @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                                {
+                                    <div class="d-flex justify-content-end">
+                                        <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
+                                            <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3 me-2">Delete</button>
+                                        </form>
+
+                                        <a asp-page="/AA/MessageBoard/EditMessage" asp-route-messageId="@messages.MessageId" class="btn btn-primary btn-sm mb-3">
+                                            Edit
+                                        </a>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    }
+
                 </div>
 
             </div>
         }
         else
         {
-            <div class="col-md-2 mx-4">
-                <div class="row mb-3">
-                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+            <div class="d-flex justify-content-center align-items-center" style="height:50vh;width:100%">
+                <div class="text-center">
+                    <h4 class="text-muted">There are no messages on the board.</h4>
                 </div>
             </div>
-        }
 
-        <div class="col-md-6">
-            <div class="row">
 
-                @foreach (var messages in Model.MessageBoard)
-                {
-                    var modalId = $"deleteModal_{messages.MessageId}";
-
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Subject: <strong>@messages.Title</strong></h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
-                            <p class="card-text mt-3">@messages.Content</p>
-
-                            @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
-                            {
-                                <div class="d-flex justify-content-end">
-                                    <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
-                                        <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3 me-2">Delete</button>
-                                    </form>
-
-                                    <a asp-page="/AA/MessageBoard/EditMessage" asp-route-messageId="@messages.MessageId" class="btn btn-primary btn-sm mb-3">
-                                        Edit
-                                    </a>
-                                </div>
-                            }
-
-                        </div>
-                    </div>
-                }
-            </div>
+        }            
+        
         </div>
-    </div>
+
 </div>
 
