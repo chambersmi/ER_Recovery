@@ -3,6 +3,7 @@ using ER_Recovery.Application.Interfaces;
 using ER_Recovery.Domains.Entities;
 using ER_Recovery.Infrastructure.Data.Repositories;
 using Microsoft.Extensions.Logging;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ER_Recovery.Application.Services
 {
@@ -36,7 +37,29 @@ namespace ER_Recovery.Application.Services
                     Title = m.Title,
                     Content = m.Content,
                     CreatedTime = m.CreatedTime,
-                    UserId = m.UserId                
+                    UserId = m.UserId,
+                    Replies = m.Replies
+                    .Where(r => r.ParentReplyId == null)
+                    .Select(r => new PostReplyDTO
+                    {
+                        ReplyId = r.ReplyId,
+                        Content = r.Content,
+                        UserId = r.UserId,
+                        UserHandle = r.UserHandle,
+                        CreatedTime = r.CreatedTime,
+                        ParentReplyId = r.ParentMessageId,
+                        Replies = r.Replies
+                        .Where(subReply => subReply.ParentReplyId == r.ReplyId)
+                        .Select(sr => new PostReplyDTO
+                        {
+                            ReplyId = sr.ReplyId,
+                            Content = sr.Content,
+                            UserId = sr.UserId,
+                            UserHandle = sr.UserHandle,
+                            CreatedTime = sr.CreatedTime,
+                            ParentReplyId = sr.ParentMessageId
+                        }).ToList()
+                    }).ToList()
                 }).ToList();
             }
             else
@@ -77,8 +100,6 @@ namespace ER_Recovery.Application.Services
 
         public async Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto, string userId, string userHandle)
         {
-
-
             var message = new MessageBoard
             {                
                 Title = dto.Title,
@@ -98,6 +119,31 @@ namespace ER_Recovery.Application.Services
                 CreatedTime = createdPost.CreatedTime,
                 UserHandle = userHandle,
                 UserId = createdPost.UserId
+            };
+        }
+
+        public async Task<ReplyInputModelDTO> PostReplyAsync(ReplyInputModelDTO dto, string userId, string userHandle)
+        {
+            if(dto.ParentMessageId == null)
+            {
+                throw new ArgumentException("Reply must have a parent Message ID.");
+            }
+
+            var reply = new PostReply
+            {
+                Content = dto.Content,
+                UserId = userId,
+                UserHandle = userHandle,
+                CreatedTime = DateTime.UtcNow,
+                ParentMessageId = dto.ParentMessageId.Value
+            };
+
+            var createdPostReply = await _messageBoardRepository.PostReplyAsync(reply);
+
+            return new ReplyInputModelDTO
+            {
+                Content = createdPostReply.Content,
+                ParentMessageId = dto.ParentMessageId
             };
         }
 
@@ -122,5 +168,37 @@ namespace ER_Recovery.Application.Services
                 Content = messageResponse.Content
             };
         }
+
+        private MessageBoardDTO MapToMessageBoardDTO(MessageBoard message)
+        {
+            return new MessageBoardDTO
+            {
+                MessageId = message.MessageId,
+                Title = message.Title,
+                Content = message.Content,
+                CreatedTime = message.CreatedTime,
+                UserId = message.UserId,
+                UserHandle = message.UserHandle,
+                Replies = message.Replies
+                .Where(r => r.ParentReplyId == null)
+                .Select(MapToReplyDTO)
+                .ToList()
+            };
+        }
+
+        private PostReplyDTO MapToReplyDTO(PostReply reply)
+        {
+            return new PostReplyDTO
+            {
+                ReplyId = reply.ReplyId,
+                Content = reply.Content,
+                CreatedTime = reply.CreatedTime,
+                UserId = reply.UserId,
+                UserHandle = reply.UserHandle,
+                ParentReplyId = reply.ParentReplyId,
+                Replies = reply.Replies?.Select(MapToReplyDTO).ToList() ?? new()
+            };
+        }
+
     }
 }

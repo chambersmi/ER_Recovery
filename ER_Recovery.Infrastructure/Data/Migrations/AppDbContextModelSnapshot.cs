@@ -119,6 +119,45 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                     b.ToTable("MessageBoard");
                 });
 
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.PostReply", b =>
+                {
+                    b.Property<int>("ReplyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ParentMessageId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ParentMessageReplyReplyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ParentReplyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("UserHandle")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ReplyId");
+
+                    b.HasIndex("ParentMessageId");
+
+                    b.HasIndex("ParentMessageReplyReplyId");
+
+                    b.ToTable("MessageReplies");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -371,6 +410,23 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.PostReply", b =>
+                {
+                    b.HasOne("ER_Recovery.Domains.Entities.MessageBoard", "Message")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentMessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ER_Recovery.Domains.Entities.PostReply", "ParentMessageReply")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentMessageReplyReplyId");
+
+                    b.Navigation("Message");
+
+                    b.Navigation("ParentMessageReply");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -420,6 +476,16 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.MessageBoard", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("ER_Recovery.Domains.Entities.PostReply", b =>
+                {
+                    b.Navigation("Replies");
                 });
 
             modelBuilder.Entity("ER_Recovery.Domains.Entities.ApplicationUser", b =>

@@ -10,26 +10,26 @@
 
 <div class="container">
     <h3 class="my-4">Message Board</h3>
-        <input type="hidden" name="id" id="modalMessageId" />
+    <input type="hidden" name="id" id="modalMessageId" />
 
-        <div class="row mb-3">
-            @if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                <div class="col-md-2 mx-4">
-                    <div class="row mb-3">
-                        <a asp-page="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
-                    </div>
+    <div class="row mb-3">
+        @if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <div class="col-md-2 mx-4">
+                <div class="row mb-3">
+                    <a asp-page="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
+                </div>
 
+            </div>
+        }
+        else
+        {
+            <div class="col-md-2 mx-4">
+                <div class="row mb-3">
+                    <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
                 </div>
-            }
-            else
-            {
-                <div class="col-md-2 mx-4">
-                    <div class="row mb-3">
-                        <a asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="/AA/MessageBoard/PostMessage" class="btn btn-primary">Post Message</a>
-                    </div>
-                </div>
-            }
+            </div>
+        }
         @if (Model.MessageBoard.Any())
         {
             <div class="col-md-6">
@@ -45,19 +45,53 @@
                                 <h6 class="card-subtitle mb-2 text-muted">Posted by <strong>@messages.UserHandle</strong> on @messages.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
                                 <p class="card-text mt-3">@messages.Content</p>
 
-                                @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                                @if (messages.Replies.Any())
                                 {
-                                    <div class="d-flex justify-content-end">
+                                    <div class="ms-4 mt-3">
+                                        @foreach (var reply in messages.Replies)
+                                        {
+                                            <div class="card mb-2">
+                                                <div class="card-body">
+                                                    <h6 class="card-subtitle mb-2 text-muted">Reply by <strong>@reply.UserHandle</strong> on @reply.CreatedTime.ToString("dddd, MM-dd-yyyy")</h6>
+                                                    <p class="card-text">@reply.Content</p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                                <div class="d-flex justify-content-end">
+                                    <!-- Only posting user or admin can remove messages -->
+                                    @if (messages.UserId == Model.CurrentUserId || Model.IsAdmin)
+                                    {
+
                                         <form method="post" asp-page-handler="MessageDelete" asp-route-messageId="@messages.MessageId">
                                             <button type="submit" style="width:auto;" class="btn btn-danger btn-sm mb-3 me-2">Delete</button>
                                         </form>
 
-                                        <a asp-page="/AA/MessageBoard/EditMessage" asp-route-messageId="@messages.MessageId" class="btn btn-primary btn-sm mb-3">
+                                        <a asp-page="/AA/MessageBoard/EditMessage" asp-route-messageId="@messages.MessageId" class="btn btn-primary btn-sm mb-3 me-2">
                                             Edit
                                         </a>
+
+                                    }
+                                    <button class="btn btn-primary btn-sm mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#replyForm_@messages.MessageId">
+                                        Reply
+                                    </button>
+                                </div>
+
+
+                                <!-- Reply Area -->
+                                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                                {
+                                    <div class="collapse" id="replyForm_@messages.MessageId">
+                                        <form method="post" asp-page-handler="ReplyMessage">
+                                            <input type="hidden" name="ReplyInput.ParentMessageId" value="@messages.MessageId" />
+                                            <div class="mb-2">
+                                                <textarea name="ReplyInput.Content" class="form-control" placeholder="Write your reply here..."></textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-sm">Post Reply</button>
+                                        </form>
                                     </div>
                                 }
-
                             </div>
                         </div>
                     }
@@ -75,9 +109,8 @@
             </div>
 
 
-        }            
-        
-        </div>
+        }
+
+    </div>
 
 </div>
-

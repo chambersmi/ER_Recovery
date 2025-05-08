@@ -10,6 +10,6 @@ namespace ER_Recovery.Application.Interfaces
         Task<MessageBoardDTO> PostMessageAsync(AddMessageBoardDTO dto, string userId, string userHandle);
         Task<MessageBoardDTO> GetMessageByIdAsync(int id);
         Task<EditMessageBoardDTO> EditMessageAsync(EditMessageBoardDTO dto);
-
+        Task<ReplyInputModelDTO> PostReplyAsync(ReplyInputModelDTO dto, string userId, string userHandle);
     }
 }

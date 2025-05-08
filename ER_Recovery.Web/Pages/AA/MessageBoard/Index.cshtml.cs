@@ -21,6 +21,9 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
         public string? CurrentUserId { get; set; }
         public bool IsAdmin { get; set; }
 
+        [BindProperty]
+        public ReplyInputModelDTO ReplyInput { get; set; } = new();
+
         public IndexModel(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -56,6 +59,38 @@ namespace ER_Recovery.Web.Pages.AA.MessageBoard
             {
                 Type = Domains.Enums.NotificationType.Success,
                 Message = "Post successfully deleted."
+            };
+
+            TempData["Notification"] = JsonSerializer.Serialize(notification);
+
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostReplyMessageAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+                return RedirectToPage("/Account/Login");
+
+            if(!ModelState.IsValid || string.IsNullOrWhiteSpace(ReplyInput.Content))
+            {
+                return RedirectToPage();
+            }
+
+            var dto = new ReplyInputModelDTO
+            {
+                Content = ReplyInput.Content,
+                ParentMessageId = ReplyInput.ParentMessageId,
+                Title = $"Reply to message {ReplyInput.ParentMessageId}"
+            };
+
+            await _messageBoardService.PostReplyAsync(dto, user.Id, user.UserHandle);
+
+            var notification = new Notifications
+            {
+                Type = Domains.Enums.NotificationType.Success,
+                Message = "Reply posted!"
             };
 
             TempData["Notification"] = JsonSerializer.Serialize(notification);

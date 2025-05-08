@@ -28,6 +28,8 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
         {
             return await _context.MessageBoard
                 .Include(m => m.User)
+                .Include(m => m.Replies)
+                .ThenInclude(r => r.Replies)                     
                 .ToListAsync();
         }
 
@@ -47,6 +49,13 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
 
         public async Task<bool> DeleteMessageById(int id)
         {
+            var messageChildren = await GetRepliesByParentMessageIdAsync(id);
+
+            foreach(var children in messageChildren)
+            {
+                await DeleteMessageById(children.ParentMessageId);
+            }
+
             var message = await _context.MessageBoard.FirstOrDefaultAsync(x => x.MessageId == id);
 
             if (message != null)
@@ -56,6 +65,13 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task<List<PostReply>> GetRepliesByParentMessageIdAsync(int messageId)
+        {
+            return await _context.MessageReplies
+                .Where(r => r.ParentMessageId == messageId && r.ParentReplyId == null)
+                .ToListAsync();
         }
 
         public async Task<MessageBoard> PostMessageAsync(MessageBoard message)
@@ -72,6 +88,16 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
             await _context.SaveChangesAsync();
 
             return messageBoard;
+        }
+
+        // Replies
+
+        public async Task<PostReply> PostReplyAsync(PostReply reply)
+        {
+            await _context.MessageReplies.AddAsync(reply);
+            await _context.SaveChangesAsync();
+
+            return reply;
         }
     }
 }

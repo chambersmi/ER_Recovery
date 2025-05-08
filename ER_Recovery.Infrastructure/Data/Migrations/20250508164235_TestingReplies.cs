@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class TestingReplies : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -230,6 +230,36 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MessageReplies",
+                columns: table => new
+                {
+                    ReplyId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    UserHandle = table.Column<string>(type: "TEXT", nullable: false),
+                    CreatedTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ParentMessageId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ParentReplyId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ParentMessageReplyReplyId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageReplies", x => x.ReplyId);
+                    table.ForeignKey(
+                        name: "FK_MessageReplies_MessageBoard_ParentMessageId",
+                        column: x => x.ParentMessageId,
+                        principalTable: "MessageBoard",
+                        principalColumn: "MessageId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MessageReplies_MessageReplies_ParentMessageReplyReplyId",
+                        column: x => x.ParentMessageReplyReplyId,
+                        principalTable: "MessageReplies",
+                        principalColumn: "ReplyId");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Announcements_UserId",
                 table: "Announcements",
@@ -276,6 +306,16 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                 name: "IX_MessageBoard_UserId",
                 table: "MessageBoard",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MessageReplies_ParentMessageId",
+                table: "MessageReplies",
+                column: "ParentMessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MessageReplies_ParentMessageReplyReplyId",
+                table: "MessageReplies",
+                column: "ParentMessageReplyReplyId");
         }
 
         /// <inheritdoc />
@@ -303,10 +343,13 @@ namespace ER_Recovery.Infrastructure.Data.Migrations
                 name: "Meetings");
 
             migrationBuilder.DropTable(
-                name: "MessageBoard");
+                name: "MessageReplies");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "MessageBoard");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
