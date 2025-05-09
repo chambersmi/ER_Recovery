@@ -13,8 +13,13 @@ namespace ER_Recovery.Web
             using var scope = app.Services.CreateScope();
 
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>() ?? throw new InvalidOperationException("Failed to retrieve context class.");
+            var dbPath = context.Database.GetDbConnection().DataSource;
 
-            SeedData(context);
+            if (!File.Exists(dbPath))
+            {
+                context.Database.Migrate();
+                SeedData(context);
+            }
         }
 
         public static void SeedData(AppDbContext context)
