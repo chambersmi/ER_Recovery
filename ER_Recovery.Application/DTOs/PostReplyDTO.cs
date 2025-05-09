@@ -13,7 +13,7 @@ namespace ER_Recovery.Application.DTOs
         public DateTime CreatedTime { get; set; }
         public string UserId { get; set; } = null!;
         public string UserHandle { get; set; } = null!;
-        public int? ParentReplyId { get; set; }
+        public int? ParentMessageId { get; set; }
         public List<PostReplyDTO> Replies { get; set; } = new();
     }
 }

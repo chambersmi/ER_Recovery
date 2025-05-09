@@ -17,7 +17,6 @@ namespace ER_Recovery.Application.DTOs
         public string Title { get; set; } = null!;
         public string Content { get; set; } = null!;
         public DateTime CreatedTime { get; set; }
-        public int? ParentMessageId { get; set; }
         public List<PostReplyDTO> Replies { get; set; } = new();
 
     }

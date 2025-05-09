@@ -47,7 +47,7 @@ namespace ER_Recovery.Application.Services
                         UserId = r.UserId,
                         UserHandle = r.UserHandle,
                         CreatedTime = r.CreatedTime,
-                        ParentReplyId = r.ParentMessageId,
+                        ParentMessageId = r.ParentMessageId,
                         Replies = r.Replies
                         .Where(subReply => subReply.ParentReplyId == r.ReplyId)
                         .Select(sr => new PostReplyDTO
@@ -57,7 +57,7 @@ namespace ER_Recovery.Application.Services
                             UserId = sr.UserId,
                             UserHandle = sr.UserHandle,
                             CreatedTime = sr.CreatedTime,
-                            ParentReplyId = sr.ParentMessageId
+                            ParentMessageId = sr.ParentMessageId
                         }).ToList()
                     }).ToList()
                 }).ToList();
@@ -195,7 +195,7 @@ namespace ER_Recovery.Application.Services
                 CreatedTime = reply.CreatedTime,
                 UserId = reply.UserId,
                 UserHandle = reply.UserHandle,
-                ParentReplyId = reply.ParentReplyId,
+                ParentMessageId = reply.ParentReplyId,
                 Replies = reply.Replies?.Select(MapToReplyDTO).ToList() ?? new()
             };
         }

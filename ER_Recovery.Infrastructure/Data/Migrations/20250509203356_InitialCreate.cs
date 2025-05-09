@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ER_Recovery.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class TestingReplies : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

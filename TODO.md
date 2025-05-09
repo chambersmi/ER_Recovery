@@ -1,8 +1,9 @@
-IMPORTANT: SuggestedHandle not setting when left blank. 
 - Fix deleting error issue [X]
 - Make it so you can't delete yourself or another admin [X]
 - Maybe create a role of God? [X]
+- [ ] Implement God Role (unnecessary for now)
 - Edit Message Board posts [X]
 - You can still demote other admins
 - Partial/reusable code for var notification = new Notifications()
 - Modals for all delete buttons
+- Allow a user to delete their reply

@@ -51,9 +51,9 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
         {
             var messageChildren = await GetRepliesByParentMessageIdAsync(id);
 
-            foreach(var children in messageChildren)
+            foreach(var child in messageChildren)
             {
-                await DeleteMessageById(children.ParentMessageId);
+                await DeleteReplyById(child.ReplyId);
             }
 
             var message = await _context.MessageBoard.FirstOrDefaultAsync(x => x.MessageId == id);
@@ -67,11 +67,19 @@ namespace ER_Recovery.Infrastructure.Data.Repositories
             return false;
         }
 
+        //Not in interface
+        private async Task DeleteReplyById(int replyId)
+        {
+            var childReplies = await _context.MessageReplies
+                .Where(r => r.ParentMessageId == replyId)
+                .ToListAsync();
+        }
+
         // Stack Overflow Exception
         public async Task<List<PostReply>> GetRepliesByParentMessageIdAsync(int messageId)
         {
             return await _context.MessageReplies
-                .Where(r => r.ParentMessageId == messageId && r.ParentReplyId == null)
+                .Where(r => r.ParentMessageId == messageId)
                 .ToListAsync();
         }
 

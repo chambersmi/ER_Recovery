@@ -16,6 +16,7 @@ namespace ER_Recovery.Application.Interfaces
         Task<MessageBoard> UpdateMessageAsync(MessageBoard messageBoard);
         //Task<List<MessageBoard>> GetMessagesByParentIdAsync(int parentId);
         Task<PostReply> PostReplyAsync(PostReply reply);
-        Task<List<PostReply>> GetRepliesByParentMessageIdAsync(int messageId);
+        
+        Task<List<PostReply>> GetRepliesByParentMessageIdAsync(int messageId);                
     }
 }
