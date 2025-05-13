@@ -6,4 +6,5 @@
 - You can still demote other admins
 - Partial/reusable code for var notification = new Notifications()
 - Modals for all delete buttons
-- Allow a user to delete their reply
+- Allow a user to delete their reply [X]
+- Add Data Annotations for MaxLength, etc.
